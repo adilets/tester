@@ -34,9 +34,16 @@ services:
     #     arguments:
     #         $someArgument: 'some_value'
 
-    admin.category:
+    admin.user:
         class: AppBundle\Admin\UserAdmin
         arguments: [~, AppBundle\Entity\User, ~]
         tags:
             - { name: sonata.admin, manager_type: orm, label: User }
+        public: true
+
+    admin.problem:
+        class: AppBundle\Admin\ProblemAdmin
+        arguments: [~, AppBundle\Entity\Problem, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, label: Problem }
         public: true
