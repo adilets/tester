@@ -51,7 +51,6 @@ class TournamentAdmin extends AbstractAdmin
     protected function configureFormFields(FormMapper $formMapper)
     {
         $formMapper
-            ->add('id')
             ->add('title')
             ->add('description')
             ->add('start')
