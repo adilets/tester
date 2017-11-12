@@ -13,10 +13,12 @@ class ProblemAdmin extends AbstractAdmin
     public function configureShowFields(ShowMapper $showMapper)
     {
         $showMapper
+            ->add('id')
             ->add('title')
             ->add('description')
             ->add('timeLimit')
             ->add('memoryLimit')
+            ->add('public')
         ;
     }
 
@@ -27,7 +29,9 @@ class ProblemAdmin extends AbstractAdmin
             ->add('description')
             ->add('timeLimit')
             ->add('memoryLimit')
+            ->add('public')
             ->add('file', 'file', [
+                'required' => false,
                 'attr' => ['accept' => '.zip']
             ])
         ;
@@ -36,20 +40,24 @@ class ProblemAdmin extends AbstractAdmin
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
     {
         $datagridMapper
+            ->add('id')
             ->add('title')
             ->add('description')
             ->add('timeLimit')
             ->add('memoryLimit')
+            ->add('public')
         ;
     }
 
     protected function configureListFields(ListMapper $listMapper)
     {
         $listMapper
+            ->add('id')
             ->add('title')
             ->add('description')
             ->add('timeLimit')
             ->add('memoryLimit')
+            ->add('public', null, ['editable' => true])
             ->add('_action', null, array(
                 'actions' => array(
                     'show' => array(),

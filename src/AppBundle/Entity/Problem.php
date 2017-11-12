@@ -30,6 +30,8 @@ class Problem
     public function setFile(UploadedFile $file = null)
     {
         $this->file = $file;
+
+        $this->updatedAt = new \DateTime();
     }
 
     /**
@@ -72,6 +74,7 @@ class Problem
      * Lifecycle callback to upload the file to the server
      *
      * @ORM\PrePersist
+     * @ORM\PreUpdate
      */
     public function lifecycleFileUpload()
     {
@@ -126,6 +129,13 @@ class Problem
      * @ORM\Column(name="updated_at", type="datetime")
      */
     private $updatedAt;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="public", type="boolean")
+     */
+    private $public;
 
     /**
      * Get id
@@ -279,5 +289,29 @@ class Problem
     public function getUpdatedAt()
     {
         return $this->updatedAt;
+    }
+
+    /**
+     * Set public
+     *
+     * @param boolean $public
+     *
+     * @return Problem
+     */
+    public function setPublic($public)
+    {
+        $this->public = $public;
+
+        return $this;
+    }
+
+    /**
+     * Get public
+     *
+     * @return boolean
+     */
+    public function getPublic()
+    {
+        return $this->public;
     }
 }
