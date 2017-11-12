@@ -53,8 +53,8 @@ class TournamentAdmin extends AbstractAdmin
         $formMapper
             ->add('title')
             ->add('description')
-            ->add('start')
-            ->add('end')
+            ->add('start', 'sonata_type_datetime_picker')
+            ->add('end', 'sonata_type_datetime_picker')
         ;
     }
 
