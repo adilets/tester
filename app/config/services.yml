@@ -40,3 +40,10 @@ services:
         tags:
             - { name: sonata.admin, manager_type: orm, label: User }
         public: true
+
+    admin.tournament:
+            class: AppBundle\Admin\TournamentAdmin
+            arguments: [~, AppBundle\Entity\Tournament, SonataAdminBundle:CRUD]
+            tags:
+                - { name: sonata.admin, manager_type: orm, label: Tournament }
+            public: true
