@@ -15,7 +15,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
  */
 class Problem
 {
-    const SERVER_PATH_TO_IMAGE_FOLDER = 'uploads/problems';
+    const SERVER_PATH_TO_IMAGE_FOLDER = 'uploads/problems/tests';
 
     /**
      * Unmapped property to handle file uploads
@@ -44,42 +44,25 @@ class Problem
         return $this->file;
     }
 
-    /**
-     * Manages the copying of the file to the relevant place on the server
-     */
-    public function upload()
-    {
-        // the file property can be empty if the field is not required
-        if (null === $this->getFile()) {
-            return;
-        }
+	/**
+	 * @ORM\PostPersist
+	 * @ORM\PostUpdate
+	 */
+	public function lifecyclePostFlush() {
+		if (null === $this->getFile()) {
+			return;
+		}
 
-        // we use the original file name here but you should
-        // sanitize it at least to avoid any security issues
+		$zipper = new \ZipArchive();
+		$tests = $zipper->open($this->getFile());
 
-        // move takes the target directory and target filename as params
-        $this->getFile()->move(
-            self::SERVER_PATH_TO_IMAGE_FOLDER,
-            $this->getFile()->getClientOriginalName()
-        );
+		if ($tests === true) {
+			$zipper->extractTo(self::SERVER_PATH_TO_IMAGE_FOLDER . '/' . $this->getId());
+			$zipper->close();
+		}
+		$this->setFile(null);
+	}
 
-        // set the path property to the filename where you've saved the file
-        $this->filename = $this->getFile()->getClientOriginalName();
-
-        // clean up the file property as you won't need it anymore
-        $this->setFile(null);
-    }
-
-    /**
-     * Lifecycle callback to upload the file to the server
-     *
-     * @ORM\PrePersist
-     * @ORM\PreUpdate
-     */
-    public function lifecycleFileUpload()
-    {
-        $this->upload();
-    }
 
     /**
      * @var int

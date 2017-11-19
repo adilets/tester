@@ -31,7 +31,7 @@ class ProblemAdmin extends AbstractAdmin
             ->add('memoryLimit')
             ->add('public')
             ->add('file', 'file', [
-                'required' => false,
+                'required' => $this->isCurrentRoute('create'),
                 'attr' => ['accept' => '.zip']
             ])
         ;
