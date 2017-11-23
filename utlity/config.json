@@ -1,0 +1,7 @@
+{
+    "MySqlHost": "localhost",
+    "MySqlPort": "3306",
+    "MySqlUser": "root",
+    "MySqlPassword": "",
+    "MySqlDbName": "checker"
+}
