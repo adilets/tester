@@ -1,0 +1,46 @@
+<nav id="navbar" class="navbar is-primary is-fixed-top " style="
+        transform: translateY(0px);
+      ">
+    <div id="specialShadow" class="bd-special-shadow" style="opacity: 1; transform: scaleY(1);"></div>
+
+    <div class="container">
+        <div class="navbar-brand">
+            <a class="navbar-item" href="{{ path('homepage') }}">
+                TESTER
+            </a>
+        </div>
+
+        <div id="navMenuDocumentation" class="navbar-menu">
+            <div class="navbar-start">
+                <a class="navbar-item " href="https://bulma.io/expo/">
+                    {{ 'problems_archive' | trans }}
+                </a>
+                <a class="navbar-item " href="https://bulma.io/love/">
+                    {{ 'system_status' | trans }}
+                </a>
+                <a class="navbar-item " href="https://bulma.io/love/">
+                    {{ 'rating' | trans }}
+                </a>
+            </div>
+
+            <div class="navbar-end">
+                {% if is_granted("IS_AUTHENTICATED_FULLY") %}
+                    <a class="navbar-item " href="{{ path('fos_user_profile_show') }}">
+                        {{ app.user.username }}
+                    </a>
+                    <a class="navbar-item " href="{{ path('fos_user_security_logout') }}">
+                        {{ 'logout' | trans }}
+                    </a>
+                {% else %}
+                    <a class="navbar-item " href="{{ path('fos_user_registration_register') }}">
+                        {{ 'sign_up' | trans }}
+                    </a>
+                    <a class="navbar-item " href="{{ path('fos_user_security_login') }}">
+                        {{ 'sign_in' | trans }}
+                    </a>
+                {% endif %}
+            </div>
+        </div>
+
+    </div>
+</nav>

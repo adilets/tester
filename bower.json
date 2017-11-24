@@ -1,0 +1,21 @@
+{
+  "name": "tester",
+  "homepage": "https://github.com/adilets/tester",
+  "authors": [
+    "Zamirbek Abdyldaev <sampobek@gmail.com>"
+  ],
+  "description": "",
+  "main": "",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bulma": "^0.6.1",
+    "font-awesome": "^4.7.0"
+  }
+}
