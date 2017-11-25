@@ -1,0 +1,52 @@
+{% extends "@FOSUser/layout.html.twig" %}
+
+{% trans_default_domain 'FOSUserBundle' %}
+
+{% block fos_user_content %}
+    <div class="columns">
+        <div class="column is-half">
+
+        </div>
+        <div class="column is-half">
+            <h1 class="title">Sign Up</h1>
+            <hr>
+            {{ form_start(form, {'method': 'post', 'action': path('fos_user_registration_register')}) }}
+
+            <div class="field">
+                {{ form_label(form.email, '', {'label_attr': {'class': 'label'}}) }}
+                <div class="control">
+                    {{ form_widget(form.email, {'attr': {'class': 'input'}}) }}
+                </div>
+            </div>
+
+            <div class="field">
+                {{ form_label(form.username, '', {'label_attr': {'class': 'label'}}) }}
+                <div class="control">
+                    {{ form_widget(form.username, {'attr': {'class': 'input'}}) }}
+                </div>
+            </div>
+
+            <div class="field">
+                {{ form_label(form.plainPassword.first, '', {'label_attr': {'class': 'label'}}) }}
+                <div class="control">
+                    {{ form_widget(form.plainPassword.first, {'attr': {'class': 'input'}}) }}
+                </div>
+            </div>
+
+            <div class="field">
+                {{ form_label(form.plainPassword.second, '', {'label_attr': {'class': 'label'}}) }}
+                <div class="control">
+                    {{ form_widget(form.plainPassword.second, {'attr': {'class': 'input'}}) }}
+                </div>
+            </div>
+
+            <div class="field">
+                <div class="control">
+                    <input class="button is-primary" type="submit"
+                           value="{{ 'registration.submit'|trans }}" />
+                </div>
+            </div>
+            {{ form_end(form) }}
+        </div>
+    </div>
+{% endblock fos_user_content %}

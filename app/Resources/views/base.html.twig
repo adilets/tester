@@ -3,10 +3,14 @@
     <head>
         <meta charset="UTF-8" />
         <title>{% block title %}Welcome!{% endblock %}</title>
-        {% block stylesheets %}{% endblock %}
+        {% block stylesheets %}
+            <link rel="stylesheet" href="{{ asset('vendor/font-awesome/css/font-awesome.css') }}">
+            <link rel="stylesheet" href="{{ asset('vendor/bulma/css/bulma.css') }}">
+        {% endblock %}
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
     </head>
     <body>
+        {% include "::navbar.html.twig" %}
         {% block body %}{% endblock %}
         {% block javascripts %}{% endblock %}
     </body>
