@@ -2,12 +2,12 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Service\Problem as ProblemService;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Request;
 
 class ProblemController extends Controller
@@ -26,7 +26,7 @@ class ProblemController extends Controller
 	/**
 	 * @Route("/problem/{id}", name="problem")
 	 */
-	public function problemAction(Request $request, $id) {
+	public function problemAction(Request $request, $id, ProblemService $problemService) {
 		$em = $this->getDoctrine()->getManager();
 		$problem = $em->getRepository("AppBundle:Problem")->find($id);
 
@@ -35,6 +35,12 @@ class ProblemController extends Controller
 			->add("code_input", TextareaType::class, ['label' => false, 'attr' => ['cols' => 80, 'rows' => 30]])
 			->add("submit", SubmitType::class)
 			->getForm();
+
+		$form->handleRequest($request);
+
+		if ($form->isSubmitted() && $form->isValid()) {
+			$problemService->check($problem, $form->getData());
+		}
 
 		return $this->render('problem/problem.html.twig', [
 			"problem" => $problem,
