@@ -97,7 +97,7 @@ class Problem
     /**
      * @var string
      *
-     * @ORM\Column(name="memoryLimit", type="string", length=255)
+     * @ORM\Column(name="memoryLimit", type="integer")
      */
     private $memoryLimit;
 
@@ -205,7 +205,7 @@ class Problem
     /**
      * Set memoryLimit
      *
-     * @param string $memoryLimit
+     * @param integer $memoryLimit
      *
      * @return Problem
      */
@@ -219,7 +219,7 @@ class Problem
     /**
      * Get memoryLimit
      *
-     * @return string
+     * @return int
      */
     public function getMemoryLimit()
     {
