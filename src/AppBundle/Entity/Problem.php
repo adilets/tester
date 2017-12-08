@@ -120,6 +120,11 @@ class Problem
      */
     private $public;
 
+    public function __toString()
+    {
+        return $this->getTitle() ? $this->getTitle() : '';
+    }
+
     /**
      * Get id
      *
