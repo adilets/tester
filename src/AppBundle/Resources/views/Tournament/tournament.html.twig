@@ -1,0 +1,9 @@
+{% extends "::base.html.twig" %}
+
+{% block title %}AppBundle:Tournament:tournament{% endblock %}
+
+{% block body %}
+    <p>{{ tournament.start | localizeddate }} - {{ tournament.end | localizeddate }}</p>
+    <h1 class="title">{{ tournament.title }}</h1>
+    <p>{{ tournament.description }}</p>
+{% endblock %}

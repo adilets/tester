@@ -1,0 +1,17 @@
+{% extends "::base.html.twig" %}
+
+{% block title %}AppBundle:Tournament:index{% endblock %}
+
+{% block body %}
+    <h4 class="subtitle is-4">Tournaments</h4>
+
+    <nav class="panel is-fullwidth is-bordered">
+        {% for tournament in tournaments %}
+            <a href="{{ path('app_tournament_tournament', {id: tournament.id}) }}" class="panel-block">
+                <h6 class="subtitle is-6">
+                    {{ tournament.title }}
+                </h6>
+            </a>
+        {% endfor %}
+    </nav>
+{% endblock %}
