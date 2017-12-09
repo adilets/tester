@@ -49,6 +49,22 @@ class Tournament
      */
     private $end;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="Problem")
+     * @ORM\JoinTable(name="tournaments_problems",
+     *      joinColumns={@ORM\JoinColumn(name="tournament_id", referencedColumnName="id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="problem_id", referencedColumnName="id")}
+     * )
+     */
+    private $problems;
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->problems = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
     /**
      * Get id
@@ -155,5 +171,38 @@ class Tournament
     {
         return $this->end;
     }
-}
 
+    /**
+     * Add problem
+     *
+     * @param \AppBundle\Entity\Problem $problem
+     *
+     * @return Tournament
+     */
+    public function addProblem(\AppBundle\Entity\Problem $problem)
+    {
+        $this->problems[] = $problem;
+
+        return $this;
+    }
+
+    /**
+     * Remove problem
+     *
+     * @param \AppBundle\Entity\Problem $problem
+     */
+    public function removeProblem(\AppBundle\Entity\Problem $problem)
+    {
+        $this->problems->removeElement($problem);
+    }
+
+    /**
+     * Get problems
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getProblems()
+    {
+        return $this->problems;
+    }
+}

@@ -55,6 +55,17 @@ class TournamentAdmin extends AbstractAdmin
             ->add('description')
             ->add('start', 'sonata_type_datetime_picker')
             ->add('end', 'sonata_type_datetime_picker')
+            ->add('problems', 'sonata_type_model', [
+                'multiple' => true,
+                'btn_add' => false,
+                'query' => $this
+                    ->modelManager
+                    ->getEntityManager('AppBundle\Entity\Problem')
+                    ->createQueryBuilder('p')
+                    ->select('p')
+                    ->from('AppBundle:Problem', 'p')
+                    ->where('p.public = FALSE')
+            ])
         ;
     }
 
@@ -69,6 +80,7 @@ class TournamentAdmin extends AbstractAdmin
             ->add('description')
             ->add('start')
             ->add('end')
+            ->add('problems')
         ;
     }
 }

@@ -11,7 +11,12 @@
     </head>
     <body>
         {% include "::navbar.html.twig" %}
-        {% block body %}{% endblock %}
+
+        <section class="section">
+            <div class="container" style="margin-top: 30px">
+                {% block body %}{% endblock %}
+            </div>
+        </section>
         {% block javascripts %}{% endblock %}
     </body>
 </html>
