@@ -29,9 +29,9 @@ class ProblemController extends Controller
 	public function problemAction(Request $request, $id, ProblemService $problemService) {
 		$em = $this->getDoctrine()->getManager();
 		$problem = $em->getRepository("AppBundle:Problem")->find($id);
-
+		$currentUser = $this->getUser();
 		$form = $this->createFormBuilder()
-			->add('compilers', ChoiceType::class, ['choices' => ["C++" => "c", "Java" => "java", "Python" => "python"]])
+			->add('compiler', ChoiceType::class, ['choices' => ["C++" => "c", "Java" => "java", "Python" => "python"]])
 			->add("code_input", TextareaType::class, ['label' => false, 'attr' => ['cols' => 80, 'rows' => 30]])
 			->add("submit", SubmitType::class)
 			->getForm();
@@ -39,7 +39,7 @@ class ProblemController extends Controller
 		$form->handleRequest($request);
 
 		if ($form->isSubmitted() && $form->isValid()) {
-			$problemService->check($problem, $form->getData());
+			$problemService->check($currentUser, $problem, $form->getData(), $this->get("kernel")->getRootDir());
 		}
 
 		return $this->render('problem/problem.html.twig', [
