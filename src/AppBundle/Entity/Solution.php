@@ -43,9 +43,10 @@ class Solution
     private $languageId;
 
     /**
-     * @var string
+     * @var Status
      *
-     * @ORM\Column(name="status_id", type="integer")
+     * @ORM\ManyToOne(targetEntity="Status")
+     * @ORM\JoinColumn(name="status_id", referencedColumnName="id")
      */
     private $status;
 
@@ -188,29 +189,29 @@ class Solution
         return $this->languageId;
     }
 
-    /**
-     * Set status
-     *
-     * @param integer $status
-     *
-     * @return Solution
-     */
-    public function setStatus($status)
-    {
-        $this->status = $status;
+	/**
+	 * Set status
+	 *
+	 * @param \AppBundle\Entity\Status $status
+	 *
+	 * @return Solution
+	 */
+	public function setStatus(\AppBundle\Entity\Status $status = null)
+	{
+		$this->status = $status;
 
-        return $this;
-    }
+		return $this;
+	}
 
-    /**
-     * Get status
-     *
-     * @return integer
-     */
-    public function getStatus()
-    {
-        return $this->status;
-    }
+	/**
+	 * Get status
+	 *
+	 * @return \AppBundle\Entity\Status
+	 */
+	public function getStatus()
+	{
+		return $this->status;
+	}
 
     /**
      * Set test
