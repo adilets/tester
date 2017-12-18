@@ -55,6 +55,13 @@ services:
             - { name: sonata.admin, manager_type: orm, label: Tournament }
         public: true
 
+    admin.language:
+        class: AppBundle\Admin\LanguageAdmin
+        arguments: [~, AppBundle\Entity\Language, SonataAdminBundle:CRUD]
+        tags:
+            - { name: sonata.admin, manager_type: orm, label: Language }
+        public: true
+
     twig.extension.intl:
         class: Twig_Extensions_Extension_Intl
         tags:
