@@ -3,5 +3,5 @@
     "MySqlPort": "3306",
     "MySqlUser": "root",
     "MySqlPassword": "root",
-    "MySqlDbName": "checker"
+    "MySqlDbName": "tester"
 }

@@ -92,6 +92,13 @@ class Solution
     private $source_code;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="compiler_message", type="text", nullable=true)
+     */
+    private $compiler_message;
+
+    /**
      * Solution constructor.
      */
     public function __construct()
@@ -347,5 +354,29 @@ class Solution
     public function getSourceCode()
     {
         return $this->source_code;
+    }
+
+    /**
+     * Set compilerMessage
+     *
+     * @param string $compilerMessage
+     *
+     * @return Solution
+     */
+    public function setCompilerMessage($compilerMessage)
+    {
+        $this->compiler_message = $compilerMessage;
+
+        return $this;
+    }
+
+    /**
+     * Get compilerMessage
+     *
+     * @return string
+     */
+    public function getCompilerMessage()
+    {
+        return $this->compiler_message;
     }
 }

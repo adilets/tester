@@ -38,7 +38,7 @@ func init() {
 	flag.IntVar(&timelimit, "timelimit", 1000, "time to execute program (millisecond)")
 	flag.StringVar(&filename, "filename", "a.out", "filename ")
 	flag.IntVar(&problemId, "problem-id", 0, "Problem id")
-	flag.IntVar(&testCount, "test-count", 1, "Tests count")
+	flag.IntVar(&testCount, "test-count", 0, "Tests count")
 	flag.IntVar(&userId, "user-id", 0, "User id")
 	flag.BoolVar(&version, "v", false, "Script version")
 }
@@ -106,6 +106,8 @@ func main() {
 
 		log.Println("Started test number: ", i)
 		cmd := exec.CommandContext(ctx, fmt.Sprintf("./%s", filename))
+		cmd.SysProcAttr = &syscall.SysProcAttr{}
+		cmd.SysProcAttr.Credential = &syscall.Credential{Uid:1001, Gid:1001}
 		cmd.Stdout = &out
 		cmd.Dir = dir
 		result := 0
