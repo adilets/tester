@@ -62,6 +62,13 @@ services:
             - { name: sonata.admin, manager_type: orm, label: Language }
         public: true
 
+    admin.status:
+        class: AppBundle\Admin\StatusAdmin
+        arguments: [~, AppBundle\Entity\Status, SonataAdminBundle:CRUD]
+        tags:
+            - { name: sonata.admin, manager_type: orm, label: Status }
+        public: true
+
     twig.extension.intl:
         class: Twig_Extensions_Extension_Intl
         tags:
