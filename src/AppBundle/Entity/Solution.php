@@ -21,26 +21,29 @@ class Solution
      */
     private $id;
 
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="user_id", type="integer")
-     */
-    private $userId;
+	/**
+	 * @var User
+	 *
+	 * @ORM\ManyToOne(targetEntity="User")
+	 * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
+	 */
+    private $user;
 
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="problem_id", type="integer")
-     */
-    private $problemId;
+	/**
+	 * @var Problem
+	 *
+	 * @ORM\ManyToOne(targetEntity="Problem")
+	 * @ORM\JoinColumn(name="problem_id", referencedColumnName="id")
+	 */
+    private $problem;
 
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="language_id", type="integer")
-     */
-    private $languageId;
+	/**
+	 * @var Language
+	 *
+	 * @ORM\ManyToOne(targetEntity="Language")
+	 * @ORM\JoinColumn(name="language_id", referencedColumnName="id")
+	 */
+    private $language;
 
     /**
      * @var Status
@@ -78,26 +81,27 @@ class Solution
      */
     private $memory;
 
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="tournament_id", type="integer", nullable=true)
-     */
-    private $tournament_id;
+	/**
+	 * @var Tournament
+	 *
+	 * @ORM\ManyToOne(targetEntity="Tournament")
+	 * @ORM\JoinColumn(name="tournament_id", referencedColumnName="id")
+	 */
+    private $tournament;
 
     /**
      * @var string
      *
      * @ORM\Column(name="source_code", type="text", nullable=true)
      */
-    private $source_code;
+    private $sourceCode;
 
     /**
      * @var string
      *
      * @ORM\Column(name="compiler_message", type="text", nullable=true)
      */
-    private $compiler_message;
+    private $compilerMessage;
 
     /**
      * Solution constructor.
@@ -110,108 +114,12 @@ class Solution
     /**
      * Get id
      *
-     * @return int
+     * @return integer
      */
     public function getId()
     {
         return $this->id;
     }
-
-    /**
-     * Set userId
-     *
-     * @param integer $userId
-     *
-     * @return Solution
-     */
-    public function setUserId($userId)
-    {
-        $this->userId = $userId;
-
-        return $this;
-    }
-
-    /**
-     * Get userId
-     *
-     * @return int
-     */
-    public function getUserId()
-    {
-        return $this->userId;
-    }
-
-    /**
-     * Set problemId
-     *
-     * @param integer $problemId
-     *
-     * @return Solution
-     */
-    public function setProblemId($problemId)
-    {
-        $this->problemId = $problemId;
-
-        return $this;
-    }
-
-    /**
-     * Get problemId
-     *
-     * @return int
-     */
-    public function getProblemId()
-    {
-        return $this->problemId;
-    }
-
-    /**
-     * Set languageId
-     *
-     * @param integer $languageId
-     *
-     * @return Solution
-     */
-    public function setLanguageId($languageId)
-    {
-        $this->languageId = $languageId;
-
-        return $this;
-    }
-
-    /**
-     * Get languageId
-     *
-     * @return int
-     */
-    public function getLanguageId()
-    {
-        return $this->languageId;
-    }
-
-	/**
-	 * Set status
-	 *
-	 * @param \AppBundle\Entity\Status $status
-	 *
-	 * @return Solution
-	 */
-	public function setStatus(\AppBundle\Entity\Status $status = null)
-	{
-		$this->status = $status;
-
-		return $this;
-	}
-
-	/**
-	 * Get status
-	 *
-	 * @return \AppBundle\Entity\Status
-	 */
-	public function getStatus()
-	{
-		return $this->status;
-	}
 
     /**
      * Set test
@@ -230,7 +138,7 @@ class Solution
     /**
      * Get test
      *
-     * @return int
+     * @return integer
      */
     public function getTest()
     {
@@ -302,35 +210,11 @@ class Solution
     /**
      * Get memory
      *
-     * @return int
+     * @return integer
      */
     public function getMemory()
     {
         return $this->memory;
-    }
-
-    /**
-     * Get tournament_id
-     *
-     * @return int
-     */
-    public function getTournamentId()
-    {
-        return $this->tournament_id;
-    }
-
-    /**
-     * Set tournament_id
-     *
-     * @param integer $tournament_id
-     *
-     * @return Solution
-     */
-    public function setTournamentId($tournament_id)
-    {
-        $this->tournament_id = $tournament_id;
-
-        return $this;
     }
 
     /**
@@ -342,7 +226,7 @@ class Solution
      */
     public function setSourceCode($sourceCode)
     {
-        $this->source_code = $sourceCode;
+        $this->sourceCode = $sourceCode;
 
         return $this;
     }
@@ -354,7 +238,7 @@ class Solution
      */
     public function getSourceCode()
     {
-        return $this->source_code;
+        return $this->sourceCode;
     }
 
     /**
@@ -366,7 +250,7 @@ class Solution
      */
     public function setCompilerMessage($compilerMessage)
     {
-        $this->compiler_message = $compilerMessage;
+        $this->compilerMessage = $compilerMessage;
 
         return $this;
     }
@@ -378,6 +262,126 @@ class Solution
      */
     public function getCompilerMessage()
     {
-        return $this->compiler_message;
+        return $this->compilerMessage;
+    }
+
+    /**
+     * Set user
+     *
+     * @param \AppBundle\Entity\User $user
+     *
+     * @return Solution
+     */
+    public function setUser(\AppBundle\Entity\User $user = null)
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * Get user
+     *
+     * @return \AppBundle\Entity\User
+     */
+    public function getUser()
+    {
+        return $this->user;
+    }
+
+    /**
+     * Set problem
+     *
+     * @param \AppBundle\Entity\Problem $problem
+     *
+     * @return Solution
+     */
+    public function setProblem(\AppBundle\Entity\Problem $problem = null)
+    {
+        $this->problem = $problem;
+
+        return $this;
+    }
+
+    /**
+     * Get problem
+     *
+     * @return \AppBundle\Entity\Problem
+     */
+    public function getProblem()
+    {
+        return $this->problem;
+    }
+
+    /**
+     * Set language
+     *
+     * @param \AppBundle\Entity\Language $language
+     *
+     * @return Solution
+     */
+    public function setLanguage(\AppBundle\Entity\Language $language = null)
+    {
+        $this->language = $language;
+
+        return $this;
+    }
+
+    /**
+     * Get language
+     *
+     * @return \AppBundle\Entity\Language
+     */
+    public function getLanguage()
+    {
+        return $this->language;
+    }
+
+    /**
+     * Set status
+     *
+     * @param \AppBundle\Entity\Status $status
+     *
+     * @return Solution
+     */
+    public function setStatus(\AppBundle\Entity\Status $status = null)
+    {
+        $this->status = $status;
+
+        return $this;
+    }
+
+    /**
+     * Get status
+     *
+     * @return \AppBundle\Entity\Status
+     */
+    public function getStatus()
+    {
+        return $this->status;
+    }
+
+    /**
+     * Set tournament
+     *
+     * @param \AppBundle\Entity\Tournament $tournament
+     *
+     * @return Solution
+     */
+    public function setTournament(\AppBundle\Entity\Tournament $tournament = null)
+    {
+        $this->tournament = $tournament;
+
+        return $this;
+    }
+
+    /**
+     * Get tournament
+     *
+     * @return \AppBundle\Entity\Tournament
+     */
+    public function getTournament()
+    {
+        return $this->tournament;
     }
 }
