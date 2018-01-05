@@ -77,3 +77,8 @@ services:
     app.service.problem:
         class: AppBundle\Service\Problem
         arguments: ["@doctrine.orm.entity_manager"]
+
+    app.topic.chat:
+        class: AppBundle\Topic\TesterTopic
+        tags:
+            - { name: gos_web_socket.topic }
