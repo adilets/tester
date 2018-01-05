@@ -1,7 +1,24 @@
-<h1>{{ problem.title }}</h1>
+{% extends "::base.html.twig" %}
 
-<h2>{{ problem.description }}</h2>
+{% block title %}AppBundle:Problem:problem{% endblock %}
 
-{{ form_start(form) }}
-{{ form_widget(form) }}
-{{ form_end(form) }}
+{% block body %}
+    {% include "::tabs.html.twig" %}
+
+    <div class="title">
+        <h1>{{ problem.title }}</h1>
+    </div>
+
+    <div class="limitations">
+        <div><span>Time limit: {{ problem.timeLimit }} {{ 'second' | trans }} </span></div>
+        <div><span>Memory limit: {{ problem.memoryLimit/1000 }} KB </span></div>
+    </div>
+
+    <div class="body">
+        <p>{{ problem.description }}</p>
+    </div>
+
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+    {{ form_end(form) }}
+{% endblock %}

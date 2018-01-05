@@ -15,7 +15,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
  */
 class Problem
 {
-    const SERVER_PATH_TO_IMAGE_FOLDER = 'uploads/problems/tests';
+    const SERVER_PATH_TO_IMAGE_FOLDER = '../utility/uploads/tests';
 
     /**
      * Unmapped property to handle file uploads
@@ -57,7 +57,7 @@ class Problem
 		$tests = $zipper->open($this->getFile());
 
 		if ($tests === true) {
-			$zipper->extractTo(self::SERVER_PATH_TO_IMAGE_FOLDER . '/' . $this->getId());
+			$zipper->extractTo(__DIR__ .'/../../../utility/tests/' . $this->getId());
 			$zipper->close();
 		}
 		$this->setFile(null);

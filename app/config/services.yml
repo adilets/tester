@@ -1,7 +1,7 @@
 # Learn more about services, parameters and containers at
 # https://symfony.com/doc/current/service_container.html
 parameters:
-    #parameter_name: value
+    utility_path: '%kernel.root_dir%/../utility/main'
 
 services:
     # default configuration for services in *this* file
@@ -75,8 +75,9 @@ services:
             - { name: twig.extension }
 
     app.service.problem:
+        public: true
         class: AppBundle\Service\Problem
-        arguments: ["@doctrine.orm.entity_manager"]
+        arguments: ['@service_container']
 
     app.topic.chat:
         class: AppBundle\Topic\TesterTopic

@@ -1,0 +1,8 @@
+<div class="tabs is-fullwidth is-boxed">
+    <ul>
+        <li class="{% if app.request.attributes.get('_route') == 'problem' %}is-active{% endif %}"><a>{{ 'statement' | trans }}</a></li>
+        <li class="{% if app.request.attributes.get('_route') == 'solution' %}is-active{% endif %}"><a>{{ 'send' | trans }}</a></li>
+        <li class="{% if app.request.attributes.get('_route') == 'statistic' %}is-active{% endif %}"><a>{{ 'statistics' | trans }}</a></li>
+        <li class="{% if app.request.attributes.get('_route') == 'discussion' %}is-active{% endif %}"><a>{{ 'discussion' | trans }}</a></li>
+    </ul>
+</div>
