@@ -59,6 +59,14 @@ class Language
      */
     private $type;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="extension", type="string", length=20)
+     */
+    private $extension;
+
+
     public function __construct() {
     	$this->createdAt = new \DateTime();
     }
@@ -196,5 +204,32 @@ class Language
     {
         return $this->type;
     }
-}
 
+    /**
+     * Set extension
+     *
+     * @param string $extension
+     *
+     * @return Language
+     */
+    public function setExtension($extension)
+    {
+        $this->extension = $extension;
+
+        return $this;
+    }
+
+    /**
+     * Get extension
+     *
+     * @return string
+     */
+    public function getExtension()
+    {
+        return $this->extension;
+    }
+
+    public function __toString() {
+        return $this->getTitle();
+    }
+}

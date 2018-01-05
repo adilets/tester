@@ -1,0 +1,16 @@
+<table>
+    <th>
+        <tr>
+            <td>ID</td>
+            <td>Name</td>
+        </tr>
+    </th>
+    <tbody>
+    {% for problem in problems %}
+        <tr>
+            <td>{{ problem.id }}</td>
+            <td><a href="{{ path('problem', {id: problem.id}) }}">{{ problem.title }}</a></td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>

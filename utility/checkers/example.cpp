@@ -1,4 +1,4 @@
-#include "../testlib.h"
+#include "testlib.h"
 #include <iostream>
 
 int main(int argc, char * argv[])

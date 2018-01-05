@@ -10,7 +10,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 class TournamentController extends Controller
 {
     /**
-     * @Route("/tournaments")
+     * @Route("/tournaments", name="tournaments")
      */
     public function indexAction()
     {
@@ -25,7 +25,7 @@ class TournamentController extends Controller
 
     /**
      *
-     * @Route("/tournament/{id}")
+     * @Route("/tournament/{id}", name="tournament")
      * @ParamConverter("post", class="AppBundle:Tournament")
      *
      * @param Tournament $tournament

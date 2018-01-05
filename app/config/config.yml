@@ -56,6 +56,8 @@ doctrine:
         #   2. Uncomment database_path in parameters.yml.dist
         #   3. Uncomment next line:
         #path: '%database_path%'
+        mapping_types:
+            enum: string
 
     orm:
         auto_generate_proxy_classes: '%kernel.debug%'
@@ -99,3 +101,15 @@ stof_doctrine_extensions:
         default:
             sluggable: true
             timestampable: true
+
+gos_web_socket:
+    server:
+        port: 8080        #The port the socket server will listen on
+        host: 127.0.0.1   #The host ip to bind to
+        router:
+            resources:
+                - "Resources/config/pubsub/routing.yml"
+    pushers:
+        wamp:
+            host: 127.0.0.1
+            port: 8080
