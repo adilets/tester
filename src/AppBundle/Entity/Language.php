@@ -59,7 +59,11 @@ class Language
      */
     private $type;
 
-    public function __construct() {
+    public function __toString() {
+	    return $this->getTitle();
+    }
+
+	public function __construct() {
     	$this->createdAt = new \DateTime();
     }
 

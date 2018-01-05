@@ -7,7 +7,7 @@
 
     <nav class="panel is-fullwidth is-bordered">
         {% for tournament in tournaments %}
-            <a href="{{ path('app_tournament_tournament', {id: tournament.id}) }}" class="panel-block">
+            <a href="{{ path('tournament', {id: tournament.id}) }}" class="panel-block">
                 <h6 class="subtitle is-6">
                     {{ tournament.title }}
                 </h6>

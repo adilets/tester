@@ -1,0 +1,4 @@
+app_topic_chat:
+    channel: app/chat
+    handler:
+        callback: 'app.topic' #Относится к getName, а не к имени сервиса

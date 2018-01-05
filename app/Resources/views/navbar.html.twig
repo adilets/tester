@@ -15,13 +15,15 @@
                 <a class="navbar-item " href="https://bulma.io/expo/">
                     {{ 'problems_archive' | trans }}
                 </a>
-                <a class="navbar-item " href="https://bulma.io/love/">
+                <a class="navbar-item {% if app.request.get('_route') == 'solutions'%}is-active{% endif %}"
+                   href="{{ path('solutions') }}">
                     {{ 'system_status' | trans }}
                 </a>
                 <a class="navbar-item " href="https://bulma.io/love/">
                     {{ 'rating' | trans }}
                 </a>
-                <a class="navbar-item " href="{{ path('app_tournament_index') }}">
+                <a class="navbar-item  {% if app.request.get('_route') == 'tournaments' or app.request.get('_route') == 'tournament' %}is-active{% endif %}"
+                   href="{{ path('tournaments') }}">
                     {{ 'tournaments' | trans }}
                 </a>
             </div>

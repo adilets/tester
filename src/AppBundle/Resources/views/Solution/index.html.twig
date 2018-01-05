@@ -1,0 +1,70 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <table class="table is-bordered is-striped is-narrow is-fullwidth">
+        <thead>
+            <tr>
+                <th class="has-text-centered">ID</th>
+                <th class="has-text-centered">{{ 'solution.date' | trans }}</th>
+                <th>{{ 'solution.author' | trans }}</th>
+                <th class="has-text-centered">{{ 'solution.problem' | trans }}</th>
+                <th class="has-text-centered">{{ 'solution.language' | trans }}</th>
+                <th class="has-text-centered">{{ 'solution.result' | trans }}</th>
+                <th class="has-text-centered">Test</th>
+                <th class="has-text-centered">Time</th>
+                <th class="has-text-centered">Memory</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for solution in solutions %}
+            <tr>
+                <td class="has-text-centered">{{ solution.id }}</td>
+                <td class="has-text-centered">
+                    {% if solution.createdAt %}
+                        {{ solution.createdAt|date('d.m.Y H:i:s') }}
+                    {% endif %}
+                </td>
+                <td>{{ solution.user }}</td>
+                <td class="has-text-centered">{{ solution.problem }}</td>
+                <td class="has-text-centered">{{ solution.language }}</td>
+                <td class="has-text-centered">{{ solution.status }}</td>
+                <td class="has-text-centered">{{ solution.test }}</td>
+                <td class="has-text-centered">{{ solution.time }}</td>
+                <td class="has-text-centered">{{ solution.memory }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script src="{{ asset('bundles/goswebsocket/js/vendor/autobahn.min.js') }}"></script>
+    <script src="{{ asset('bundles/goswebsocket/js/gos_web_socket_client.js') }}"></script>
+    <script type="text/javascript">
+        window.onload = function() {
+            var webSocket = WS.connect("ws://127.0.0.1:8080");
+
+            webSocket.on("socket/connect", function(session){
+                //session is an Autobahn JS WAMP session.
+
+                console.log("Successfully Connected!");
+
+                session.subscribe("app/chat", function(uri, payload){
+                    console.log("Received message", payload.msg);
+                });
+
+                // session.publish("app/chat", "Привет, я пришел от клиента!!!");
+            });
+
+            webSocket.on("socket/disconnect", function(error) {
+                //error provides us with some insight into the disconnection: error.reason and error.code
+
+                console.log("Disconnected for " + error.reason + " with code " + error.code);
+            });
+        }
+    </script>
+{% endblock %}
