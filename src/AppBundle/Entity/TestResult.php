@@ -22,11 +22,12 @@ class TestResult
     private $id;
 
     /**
-     * @var int
+     * @var Solution
      *
-     * @ORM\Column(name="solution_id", type="integer")
+     * @ORM\ManyToOne(targetEntity="Solution")
+     * @ORM\JoinColumn(name="solution_id", referencedColumnName="id")
      */
-    private $solutionId;
+    private $solution;
 
     /**
      * @var int
@@ -36,11 +37,12 @@ class TestResult
     private $test;
 
     /**
-     * @var int
+     * @var Status
      *
-     * @ORM\Column(name="status_id", type="integer")
+     * @ORM\ManyToOne(targetEntity="Status")
+     * @ORM\JoinColumn(name="status_id", referencedColumnName="id")
      */
-    private $statusId;
+    private $status;
 
     /**
      * @var float
@@ -52,7 +54,7 @@ class TestResult
     /**
      * @var string
      *
-     * @ORM\Column(name="memory", type="string", length=255, nullable=true)
+     * @ORM\Column(name="memory", type="integer", nullable=true)
      */
     private $memory;
 
@@ -65,30 +67,6 @@ class TestResult
     public function getId()
     {
         return $this->id;
-    }
-
-    /**
-     * Set solutionId
-     *
-     * @param integer $solutionId
-     *
-     * @return TestResult
-     */
-    public function setSolutionId($solutionId)
-    {
-        $this->solutionId = $solutionId;
-
-        return $this;
-    }
-
-    /**
-     * Get solutionId
-     *
-     * @return int
-     */
-    public function getSolutionId()
-    {
-        return $this->solutionId;
     }
 
     /**
@@ -108,35 +86,11 @@ class TestResult
     /**
      * Get test
      *
-     * @return int
+     * @return integer
      */
     public function getTest()
     {
         return $this->test;
-    }
-
-    /**
-     * Set statusId
-     *
-     * @param integer $statusId
-     *
-     * @return TestResult
-     */
-    public function setStatusId($statusId)
-    {
-        $this->statusId = $statusId;
-
-        return $this;
-    }
-
-    /**
-     * Get statusId
-     *
-     * @return int
-     */
-    public function getStatusId()
-    {
-        return $this->statusId;
     }
 
     /**
@@ -166,7 +120,7 @@ class TestResult
     /**
      * Set memory
      *
-     * @param string $memory
+     * @param integer $memory
      *
      * @return TestResult
      */
@@ -180,11 +134,58 @@ class TestResult
     /**
      * Get memory
      *
-     * @return string
+     * @return integer
      */
     public function getMemory()
     {
         return $this->memory;
     }
-}
 
+    /**
+     * Set solution
+     *
+     * @param \AppBundle\Entity\Solution $solution
+     *
+     * @return TestResult
+     */
+    public function setSolution(\AppBundle\Entity\Solution $solution = null)
+    {
+        $this->solution = $solution;
+
+        return $this;
+    }
+
+    /**
+     * Get solution
+     *
+     * @return \AppBundle\Entity\Solution
+     */
+    public function getSolution()
+    {
+        return $this->solution;
+    }
+
+    /**
+     * Set status
+     *
+     * @param \AppBundle\Entity\Status $status
+     *
+     * @return TestResult
+     */
+    public function setStatus(\AppBundle\Entity\Status $status = null)
+    {
+        $this->status = $status;
+
+        return $this;
+    }
+
+    /**
+     * Get status
+     *
+     * @return \AppBundle\Entity\Status
+     */
+    public function getStatus()
+    {
+        return $this->status;
+    }
+}
