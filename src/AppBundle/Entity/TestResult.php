@@ -50,11 +50,11 @@ class TestResult
     private $time;
 
     /**
-     * @var string
+     * @var integer
      *
-     * @ORM\Column(name="memory", type="string", length=255, nullable=true)
+     * @ORM\Column(name="memory", type="integer")
      */
-    private $memory;
+    private $memory = 0;
 
 
     /**
