@@ -113,3 +113,9 @@ gos_web_socket:
         wamp:
             host: 127.0.0.1
             port: 8080
+
+stfalcon_tinymce:
+    tinymce_jquery: true
+    theme:
+        simple:
+            theme: "modern"
