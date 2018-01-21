@@ -26,7 +26,7 @@ class ProblemAdmin extends AbstractAdmin
     {
         $formMapper
             ->add('title')
-            ->add('description')
+            ->add('description', null, ['attr' => ['class' => 'tinymce']])
             ->add('timeLimit')
             ->add('memoryLimit')
             ->add('public')
