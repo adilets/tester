@@ -52,11 +52,11 @@ class TestResult
     private $time;
 
     /**
-     * @var string
+     * @var integer
      *
-     * @ORM\Column(name="memory", type="integer", nullable=true)
+     * @ORM\Column(name="memory", type="integer")
      */
-    private $memory;
+    private $memory = 0;
 
 
     /**

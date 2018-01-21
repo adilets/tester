@@ -12,7 +12,7 @@
 
         <div id="navMenuDocumentation" class="navbar-menu">
             <div class="navbar-start">
-                <a class="navbar-item " href="https://bulma.io/expo/">
+                <a class="navbar-item {% if app.request.get('_route') == 'problems'%}is-active{% endif %}" href="{{ path('problems') }}">
                     {{ 'problems_archive' | trans }}
                 </a>
                 <a class="navbar-item {% if app.request.get('_route') == 'solutions'%}is-active{% endif %}"

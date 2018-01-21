@@ -54,6 +54,7 @@ const (
 	Compiling = 8
 	Running = 9
 	Waiting = 10
+	JAIL_PATH = "/home/adik/jail"
 )
 
 func init() {
@@ -99,8 +100,17 @@ func init() {
 		log.Fatal(err)
 	}
 
+	stmtOut, err = db.Prepare("SELECT command, extension FROM language WHERE id = ?")
+	if err != nil {
+		log.Fatal(err)
+	}
 
-	err = ioutil.WriteFile(fmt.Sprintf("%s/uploads/%d/%d%s", fileDir, userId, problemId, extension), []byte(sourceCode), 0777)
+	err = stmtOut.QueryRow(languageId).Scan(&compileCommand, &extension)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	err = ioutil.WriteFile(fmt.Sprintf("%s/uploads/%d/%d%s", JAIL_PATH, userId, problemId, extension), []byte(sourceCode), 0777)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -116,15 +126,7 @@ func init() {
 		log.Fatal(err)
 	}
 
-	stmtOut, err = db.Prepare("SELECT command, extension FROM language WHERE id = ?")
-	if err != nil {
-		log.Fatal(err)
-	}
 	defer stmtOut.Close()
-	err = stmtOut.QueryRow(languageId).Scan(&compileCommand, &extension)
-	if err != nil {
-		log.Fatal(err)
-	}
 }
 
 func main() {
@@ -136,7 +138,7 @@ func main() {
 	log.Println("Memorylimit: ", memoryLimit)
 	log.Println("problemId: ", problemId)
 
-	ctx, cancel := context.WithTimeout(context.Background(), time.Duration(timeLimit)*time.Millisecond)
+	ctx, cancel := context.WithTimeout(context.Background(), time.Duration(10) * time.Millisecond)
 	defer cancel()
 
 	stmtUpd, err := db.Prepare("UPDATE solution set status_id=? where id=?")
@@ -185,6 +187,11 @@ func main() {
 
 	log.Println("TestCount: ", testCount)
 
+	err = syscall.Chroot(JAIL_PATH)
+	if err != nil {
+		log.Fatal(err)
+	}
+
 	for i := 1; i <= testCount; i ++ {
 		in, err := ioutil.ReadFile(fmt.Sprintf("tests/%d/%d.in", problemId, i))
 
@@ -193,12 +200,13 @@ func main() {
 		}
 
 		log.Println("Started test number: ", i)
-		cmd := exec.CommandContext(ctx, fmt.Sprintf("uploads/%d/%d", userId, problemId))
+
+		cmd := exec.CommandContext(ctx, fmt.Sprintf("./%d", problemId))
 		//cmd.SysProcAttr = &syscall.SysProcAttr{}
 		//cmd.SysProcAttr.Credential = &syscall.Credential{Uid: 1001, Gid: 1001}
 		out.Reset()
 		cmd.Stdout = &out
-		cmd.Dir = fileDir
+		cmd.Dir = fmt.Sprintf("/uploads/%d/", userId)
 		result := 0
 		var memoryUsage int64
 
@@ -208,20 +216,18 @@ func main() {
 			log.Fatal(err)
 		}
 		start := time.Now()
-		e := cmd.Run()
-		if err != nil {
-			log.Fatal(err)
-		}
+		err = cmd.Run()
 		executedTime := time.Since(start).Seconds()
 		//timelimit
-		if executedTime > timeLimit {
+		if executedTime > (10/1000) {
 			result = TimeLimitExceeded
+			log.Println("timelimit man")
 		}
 
 		log.Println("executed time: ", executedTime)
-		if e != nil {
-			result = RuntimeError //runtime error
-			log.Println("result: ", e)
+		if err != nil {
+			result = RuntimeError
+			log.Println("result: ", err)
 		} else {
 			err = os.MkdirAll(fmt.Sprintf("outputs/%d/%d/", userId, problemId), 0777)
 			if err != nil {
@@ -232,11 +238,13 @@ func main() {
 				log.Fatal(err)
 			}
 			checkerCmd := exec.Command(fmt.Sprintf("checkers/checker_%d", problemId), fmt.Sprintf("tests/%d/%d.in", problemId, i), fmt.Sprintf("tests/%d/%d.out", problemId, i), fmt.Sprintf("outputs/%d/%d/%d", userId, problemId, i))
+			checkerCmd.Stdout = &out
 			if err := checkerCmd.Start(); err != nil {
 				log.Fatalf("cmd.Start: %v", err)
 			}
 
 			if err := checkerCmd.Wait(); err != nil {
+				log.Println("4to tam")
 				if exitErr, ok := err.(*exec.ExitError); ok {
 					if status, ok := exitErr.Sys().(syscall.WaitStatus); ok {
 						switch status.ExitStatus() {
@@ -291,7 +299,7 @@ func main() {
 		if i == testCount && result == Accepted {
 			solutionStatus = Accepted
 		}
-		_, err = stmtUpd.Exec(solutionStatus, executedTime, executedTime, memoryUsage, memoryUsage, i, solutionId)
+		_, err = stmtUpd.Exec(solutionStatus, executedTime, executedTime, fmt.Sprintf("%d", memoryUsage), fmt.Sprintf("%d", memoryUsage), i, solutionId)
 		if err != nil {
 			log.Fatal(err)
 		}
@@ -333,14 +341,13 @@ func Compile() (stderr string, exitCode int) {
 func RunCommand(name string, args ...string) (stdout string, stderr string, exitCode int) {
 	var outbuf, errbuf bytes.Buffer
 	cmd := exec.Command(name, args...)
-	cmd.Dir = fmt.Sprintf("%s/uploads/%d", fileDir, userId)
+	cmd.Dir = fmt.Sprintf("%s/uploads/%d", JAIL_PATH, userId)
 	cmd.Stdout = &outbuf
 	cmd.Stderr = &errbuf
 
 	err := cmd.Run()
 	stdout = outbuf.String()
 	stderr = errbuf.String()
-
 	if err != nil {
 		if exitError, ok := err.(*exec.ExitError); ok {
 			ws := exitError.Sys().(syscall.WaitStatus)

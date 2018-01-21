@@ -75,11 +75,11 @@ class Solution
     private $time;
 
     /**
-     * @var int
+     * @var integer
      *
-     * @ORM\Column(name="memory", type="integer", nullable=true)
+     * @ORM\Column(name="memory", type="integer")
      */
-    private $memory;
+    private $memory = 0;
 
 	/**
 	 * @var Tournament
