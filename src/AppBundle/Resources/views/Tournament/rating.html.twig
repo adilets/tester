@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    {% include "::tournament-helper.html.twig" %}
+
+    <table class="table is-bordered is-striped is-narrow is-fullwidth">
+        <thead>
+            <tr>
+                <th class="has-text-centered">Rank</th>
+                <th class="has-text-centered">Name</th>
+                {% for problem in tournament.problems %}
+                    <th class="has-addons-centered small">{{ problem.title }}</th>
+                {% endfor %}
+                <th class="has-text-centered">Time</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% set rank = 1 %}
+            {% for user in tournament.users %}
+                <tr>
+                    <td class="has-text-centered">{{ rank }}</td>
+                    <td class="has-text-centered">{{ user.username }}</td>
+                    {% for problem in tournament.problems %}
+                        <th class="has-addons-centered small">
+                            {% if rating[user.id][problem.id].accepted %}
+                                +{% if rating[user.id][problem.id].count > 0 %}
+                                    {{ rating[user.id][problem.id].count }}
+                                {% endif %}
+                                <br/>
+                                {{ rating[user.id][problem.id].sentTime }}
+                            {% else %}
+                                {% if rating[user.id][problem.id].count > 0 %}
+                                    -{{ rating[user.id][problem.id].count }}
+                                {% endif %}
+                            {% endif %}
+                        </th>
+                    {% endfor %}
+                    <td class="has-text-centered"> {{ (totalTimes[user.id]/60)|number_format }}</td>
+                </tr>
+            {% set rank = rank + 1 %}
+            {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}

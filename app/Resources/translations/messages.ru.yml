@@ -10,3 +10,8 @@ statement: Условие
 send: Отправка
 statistics: Статистика
 discussion: Обсуждения
+
+tournament:
+  problems: Задачи
+  sent: Отправленные
+  rating: Рейтинг

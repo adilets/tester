@@ -3,13 +3,16 @@
 {% block title %}AppBundle:Tournament:tournament{% endblock %}
 
 {% block body %}
-    <p>{{ tournament.start | localizeddate }} - {{ tournament.end | localizeddate }}</p>
-    <h1 class="title">{{ tournament.title }}</h1>
-    <p>{{ tournament.description }}</p>
+    {% include "::tournament-helper.html.twig" %}
 
-    <table class="table">
+    <nav class="panel is-fullwidth is-bordered">
         {% for problem in tournament.problems %}
-            <tr><td>{{ problem.title }}</td></tr>
+            <a href="{{ path('problem', {id: problem.id}) }}" class="panel-block">
+                <h6 class="subtitle is-6">
+                    {{ problem.title }}
+                </h6>
+            </a>
         {% endfor %}
+    </nav>
     </table>
 {% endblock %}

@@ -1,0 +1,11 @@
+<p>{{ tournament.start | localizeddate }} - {{ tournament.end | localizeddate }}</p>
+<h1 class="title">{{ tournament.title }}</h1>
+<p>{{ tournament.description }}</p>
+
+<div class="tabs is-fullwidth is-boxed">
+    <ul>
+        <li class="{% if app.request.attributes.get('_route') == 'tournament' %}is-active{% endif %}"><a href="{{ path('tournament', {id: tournament.id}) }}">{{ 'tournament.problems' | trans }}</a></li>
+        <li class="{% if app.request.attributes.get('_route') == 'tournamentSent' %}is-active{% endif %}"><a href="{{ path('tournamentSent', {id: tournament.id}) }}">{{ 'tournament.sent' | trans }}</a></li>
+        <li class="{% if app.request.attributes.get('_route') == 'tournamentRating' %}is-active{% endif %}"><a href="{{ path('tournamentRating', {id: tournament.id}) }}">{{ 'tournament.rating' | trans }}</a></li>
+    </ul>
+</div>

@@ -1,7 +1,7 @@
 problems_archive: Problems archive
 system_status: System status
 rating: Rating
-logout: Logout
+logout: Logoutting
 sign_in: Sign In
 sign_up: Sign Up
 tournaments: Tournaments
@@ -10,6 +10,11 @@ statement: Statement
 send: Send
 statistics: Statistics
 discussion: Discussion
+
+tournament:
+  problems: Problems
+  sent: Sent
+  rating: Rating
 
 solution:
   date: Date

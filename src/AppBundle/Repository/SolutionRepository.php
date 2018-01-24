@@ -1,6 +1,7 @@
 <?php
 
 namespace AppBundle\Repository;
+use AppBundle\Entity\Tournament;
 
 /**
  * SolutionRepository
@@ -10,4 +11,12 @@ namespace AppBundle\Repository;
  */
 class SolutionRepository extends \Doctrine\ORM\EntityRepository
 {
+    public function getRating(Tournament $tournament)
+    {
+        $sql = "SELECT user_id, problem_id, status_id, MAX(created_at) AS sent_time, count(*) AS count FROM solution WHERE tournament_id = :tournament_id GROUP BY user_id, problem_id, status_id ORDER BY sent_time;";
+        $stmt = $this->getEntityManager()->getConnection()
+            ->prepare($sql);
+        $stmt->execute(array('tournament_id' => $tournament->getId()));
+        return $stmt->fetchAll();
+    }
 }

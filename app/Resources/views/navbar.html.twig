@@ -22,7 +22,7 @@
                 <a class="navbar-item " href="https://bulma.io/love/">
                     {{ 'rating' | trans }}
                 </a>
-                <a class="navbar-item  {% if app.request.get('_route') == 'tournaments' or app.request.get('_route') == 'tournament' %}is-active{% endif %}"
+                <a class="navbar-item  {% if app.request.get('_route') == 'tournaments' or app.request.get('_route') == 'tournament' or app.request.get('_route') == 'tournamentSent' or app.request.get('_route') == 'tournamentRating' %}is-active{% endif %}"
                    href="{{ path('tournaments') }}">
                     {{ 'tournaments' | trans }}
                 </a>
