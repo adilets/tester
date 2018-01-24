@@ -26,7 +26,8 @@ class AppKernel extends Kernel
             new Doctrine\Bundle\MigrationsBundle\DoctrineMigrationsBundle(),
             new Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle(),
 	        new Gos\Bundle\WebSocketBundle\GosWebSocketBundle(),
-	        new Gos\Bundle\PubSubRouterBundle\GosPubSubRouterBundle()
+	        new Gos\Bundle\PubSubRouterBundle\GosPubSubRouterBundle(),
+            new Stfalcon\Bundle\TinymceBundle\StfalconTinymceBundle(),
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {

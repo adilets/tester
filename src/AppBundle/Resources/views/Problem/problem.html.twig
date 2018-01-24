@@ -15,7 +15,7 @@
     </div>
 
     <div class="body">
-        <p>{{ problem.description }}</p>
+        <p>{{ problem.description | raw }}</p>
     </div>
 
     {{ form_start(form) }}
