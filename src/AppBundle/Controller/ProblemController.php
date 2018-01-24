@@ -30,7 +30,7 @@ class ProblemController extends Controller
 	/**
 	 * @Route("/problem/{id}", name="problem")
 	 */
-	public function problemAction(Request $request, $id, ProblemService $problemService) {
+	public function problemAction(Request $request, $id) {
 		$em = $this->getDoctrine()->getManager();
 		$problem = $em->getRepository("AppBundle:Problem")->find($id);
 		/** @var User $currentUser */
