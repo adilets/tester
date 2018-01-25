@@ -16,26 +16,26 @@
         </thead>
         <tbody>
             {% set rank = 1 %}
-            {% for user in tournament.users %}
+            {% for userId, value in totalTimes %}
                 <tr>
                     <td class="has-text-centered">{{ rank }}</td>
-                    <td class="has-text-centered">{{ user.username }}</td>
+                    <td class="has-text-centered">{{ userNames[userId] }}</td>
                     {% for problem in tournament.problems %}
-                        <th class="has-addons-centered small">
-                            {% if rating[user.id][problem.id].accepted %}
-                                +{% if rating[user.id][problem.id].count > 0 %}
-                                    {{ rating[user.id][problem.id].count }}
+                        <td class="has-addons-centered small">
+                            {% if rating[userId][problem.id].accepted %}
+                                +{% if rating[userId][problem.id].count > 0 %}
+                                    {{ rating[userId][problem.id].count }}
                                 {% endif %}
                                 <br/>
-                                {{ rating[user.id][problem.id].sentTime }}
+                                {{ rating[userId][problem.id].sentTime }}
                             {% else %}
-                                {% if rating[user.id][problem.id].count > 0 %}
-                                    -{{ rating[user.id][problem.id].count }}
+                                {% if rating[userId][problem.id].count > 0 %}
+                                    -{{ rating[userId][problem.id].count }}
                                 {% endif %}
                             {% endif %}
-                        </th>
+                        </td>
                     {% endfor %}
-                    <td class="has-text-centered"> {{ (totalTimes[user.id]/60)|number_format }}</td>
+                    <td class="has-text-centered"> {{ (value/60)|number_format }}</td>
                 </tr>
             {% set rank = rank + 1 %}
             {% endfor %}

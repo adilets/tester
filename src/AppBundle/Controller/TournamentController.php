@@ -75,8 +75,7 @@ class TournamentController extends Controller
         $em = $this->getDoctrine()->getManager();
 
         $result = $em->getRepository('AppBundle:Solution')->getRating($tournament);
-        $rating = array();
-        $totalTimes = array();
+        $userNames = $totalTimes = $rating = array();
         foreach ($tournament->getUsers() as $user) {
             foreach ($tournament->getProblems() as $problem) {
                 $rating[$user->getId()][$problem->getId()] =  array(
@@ -86,6 +85,7 @@ class TournamentController extends Controller
                 );
             }
             $totalTimes[$user->getId()] = 0;
+            $userNames[$user->getId()] = $user->getUsername();
         }
 
         foreach ($result as $item) {
@@ -94,22 +94,41 @@ class TournamentController extends Controller
                 $sentDiffSecond = $this->getDateDiffInSecond($tournament->getStart(), $sentDate);
                 $totalTimes[$item['user_id']] += $sentDiffSecond;
                 $rating[$item['user_id']][$item['problem_id']]['accepted'] = true;
-                $diff = $tournament->getStart()->diff($sentDate);
-                $rating[$item['user_id']][$item['problem_id']]['sentTime'] = $diff->days . "d " . $diff->h . ":" . $diff->i . ":" . $diff->s;
+
+                $rating[$item['user_id']][$item['problem_id']]['sentTime'] = $this->getDateDiffString($tournament->getStart(), $sentDate);
             } elseif (!$rating[$item['user_id']][$item['problem_id']]['accepted']) {
                 $rating[$item['user_id']][$item['problem_id']]['count'] += $item['count'];
             }
         }
-//        dump($rating);die();
+        asort($totalTimes);
         return $this->render('AppBundle:Tournament:rating.html.twig', array(
             'totalTimes' => $totalTimes,
             'tournament' => $tournament,
-            'rating' => $rating
+            'rating' => $rating,
+            'userNames' => $userNames
         ));
     }
 
     private function getDateDiffInSecond(DateTime $firstDate, DateTime $secondDate) {
         return ($secondDate->getTimestamp() - $firstDate->getTimestamp());
+    }
+
+    private function getDateDiffString(DateTime $firstDate, DateTime $secondDate) {
+        $diff = $firstDate->diff($secondDate);
+        $diffString = "";
+        if ($diff->days > 0) {
+            $diffString .= $diff->days . "d ";
+        }
+        $diffString .= $diff->h . ":";
+        if ($diff->i < 10) {
+            $diffString .= "0";
+        }
+        $diffString .= $diff->i . ":";
+        if ($diff->s < 10) {
+            $diffString .= "0";
+        }
+        $diffString .= $diff->s;
+        return $diffString;
     }
 
 }
