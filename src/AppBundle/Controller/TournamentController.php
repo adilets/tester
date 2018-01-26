@@ -35,6 +35,8 @@ class TournamentController extends Controller
      */
     public function tournamentAction(Tournament $tournament)
     {
+        dump($tournament->hasAccess($this->getUser()));
+        die();
         return $this->render('AppBundle:Tournament:tournament.html.twig', array(
             'tournament' => $tournament
         ));

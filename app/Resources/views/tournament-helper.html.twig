@@ -1,6 +1,27 @@
-<p>{{ tournament.start | localizeddate }} - {{ tournament.end | localizeddate }}</p>
 <h1 class="title">{{ tournament.title }}</h1>
+<p>Start: {{ tournament.start | date('d.m.y H:i') }}</p>
+<p>End: {{ tournament.end | date('d.m.y H:i') }}</p>
+<br>
+<p>
+    Status:
+    {% if tournament.notStarted %}
+    <span class="has-text-grey-darker">
+        <i class="fa fa-battery"></i> not started
+    </span>
+    {% elseif tournament.running %}
+    <span class="has-text-success">
+        <i class="fa fa-battery-half"></i> running
+    </span>
+    {% else %}
+    <span class="has-text-danger">
+        <i class="fa fa-battery-empty"></i> finished
+    </span>
+    {% endif %}
+</p>
+<br/>
 <p>{{ tournament.description }}</p>
+<br/>
+<br/>
 
 <div class="tabs is-fullwidth is-boxed">
     <ul>

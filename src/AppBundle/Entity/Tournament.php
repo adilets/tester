@@ -248,4 +248,44 @@ class Tournament
     {
         return $this->users;
     }
+
+    /**
+     * @return bool
+     */
+    public function isNotStarted()
+    {
+        $now = new \DateTime();
+        return $this->getStart() > $now;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isRunning()
+    {
+        $now = new \DateTime();
+        return $now >= $this->getStart() && $now <= $this->getEnd();
+    }
+
+    /**
+     * @return bool
+     */
+    public function isFinished()
+    {
+        $now = new \DateTime();
+        return $now > $this->getEnd();
+    }
+
+    /**
+     * @param User $user
+     * @return bool
+     */
+    public function hasAccess(User $user) {
+        foreach ($this->users as $u) {
+            if ($user == $u) {
+                return true;
+            }
+        }
+        return false;
+    }
 }
