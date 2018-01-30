@@ -1,6 +1,7 @@
 <?php
 
 namespace AppBundle\Repository;
+use AppBundle\Entity\Problem;
 use AppBundle\Entity\Tournament;
 
 /**
@@ -18,5 +19,66 @@ class SolutionRepository extends \Doctrine\ORM\EntityRepository
             ->prepare($sql);
         $stmt->execute(array('tournament_id' => $tournament->getId()));
         return $stmt->fetchAll();
+    }
+
+    public function getProblemSolutionsCount(Problem $problem) {
+        $qb = $this->createQueryBuilder('s');
+
+        $solutionsCount = $qb
+            ->select('COUNT(s) AS solutions')
+            ->where('s.problem = :problem')
+            ->setParameter('problem', $problem)
+            ->getQuery()->getResult();
+
+        return $solutionsCount[0]['solutions'];
+    }
+
+    public function getProblemAcceptedSolutionsCount(Problem $problem) {
+        $qb = $this->createQueryBuilder('s');
+
+        $solutionsCount = $qb
+            ->select('COUNT(s) AS solutions')
+            ->where('s.problem = :problem')
+            ->andWhere('s.status = 1')
+            ->setParameter('problem', $problem)
+            ->getQuery()->getResult();
+
+        return $solutionsCount[0]['solutions'];
+    }
+
+    public function getProblemSolutionsSentUsersCount(Problem $problem) {
+        $sql = <<<SQL
+SELECT COUNT(*) AS users
+FROM (
+  SELECT (s.user_id)
+  FROM solution AS s
+  WHERE s.problem_id = :problem_id
+  GROUP BY s.user_id
+) AS x;
+SQL;
+
+        $stmt = $this->getEntityManager()->getConnection()->prepare($sql);
+        $stmt->execute(['problem_id' => $problem->getId()]);
+        $usersCount = $stmt->fetchAll();
+
+        return $usersCount[0]['users'];
+    }
+
+    public function getProblemSolvedUsersCount(Problem $problem) {
+        $sql = <<<SQL
+SELECT COUNT(*) AS users
+FROM (
+  SELECT (s.user_id)
+  FROM solution AS s
+  WHERE s.problem_id = :problem_id AND s.status_id = 1
+  GROUP BY s.user_id
+) AS x;
+SQL;
+
+        $stmt = $this->getEntityManager()->getConnection()->prepare($sql);
+        $stmt->execute(['problem_id' => $problem->getId()]);
+        $usersCount = $stmt->fetchAll();
+
+        return $usersCount[0]['users'];
     }
 }
