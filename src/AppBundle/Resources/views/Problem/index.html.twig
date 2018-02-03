@@ -3,7 +3,7 @@
 {% block body %}
     <nav class="panel is-fullwidth is-bordered">
         {% for problem in problems %}
-            <a href="{{ path('problem', {id: problem.id}) }}" class="panel-block">
+            <a href="{{ path('problem', {problemId: problem.id}) }}" class="panel-block">
                 <h6 class="subtitle is-6">
                     {{ problem.title }}
                 </h6>

@@ -1,0 +1,9 @@
+{% extends "::base.html.twig" %}
+
+{% block title %}AppBundle:Problem:problem{% endblock %}
+
+{% block body %}
+    {% include "@App/Problem/_tabs.html.twig" %}
+
+    {% include 'FOSCommentBundle:Thread:async.html.twig' with {'id': problem.id} %}
+{% endblock %}

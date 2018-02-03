@@ -25,3 +25,9 @@ solution:
   test: Test
   time: Time
   memory: Memory
+
+problem_statistics:
+  solutions_count: Solutions count
+  accepted_solutions_count: Accpeted solutions count
+  solutions_sent_users_count: Solutions sent users count
+  solved_users_count: Solved users count

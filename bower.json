@@ -16,6 +16,7 @@
   ],
   "dependencies": {
     "bulma": "^0.6.1",
-    "font-awesome": "^4.7.0"
+    "font-awesome": "^4.7.0",
+    "jquery": "2.2"
   }
 }

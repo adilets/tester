@@ -1,0 +1,28 @@
+{% extends "::base.html.twig" %}
+
+{% block title %}AppBundle:Problem:problem{% endblock %}
+
+{% block body %}
+    {% include "@App/Problem/_tabs.html.twig" %}
+
+    <table class="table is-fullwidth is-bordered">
+        <tbody>
+        <tr>
+            <td>{{ 'problem_statistics.solutions_count'|trans }}</td>
+            <td>{{ solutionsCount }}</td>
+        </tr>
+        <tr>
+            <td>{{ 'problem_statistics.accepted_solutions_count' | trans }}</td>
+            <td>{{ acceptedSolutionsCount }}</td>
+        </tr>
+        <tr>
+            <td>{{ 'problem_statistics.solutions_sent_users_count' | trans }}</td>
+            <td>{{ solutionsSentUsersCount }}</td>
+        </tr>
+        <tr>
+            <td>{{ 'problem_statistics.solved_users_count' | trans }}</td>
+            <td>{{ solvedUsersCount }}</td>
+        </tr>
+        </tbody>
+    </table>
+{% endblock %}

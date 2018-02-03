@@ -1,0 +1,63 @@
+{% set route = app.request.attributes.get('_route') %}
+{% set problemId = app.request.attributes.get('problemId') %}
+
+<div class="content">
+    <h1>{{ problem.title }}</h1>
+
+    <div class="limitations">
+        <div><span>Time limit: {{ problem.timeLimit }} {{ 'second' | trans }} </span></div>
+        <div><span>Memory limit: {{ problem.memoryLimit/1000 }} KB </span></div>
+    </div>
+
+    <div class="body">
+        <p>{{ problem.description | raw }}</p>
+    </div>
+</div>
+
+<div class="tabs">
+    <ul>
+        {% if 'tournament' not in route %}
+            <li class="{% if route == 'problem' %}is-active{% endif %}">
+                <a href="{{ path('problem', {problemId: problemId}) }}">
+                    <span class="icon is-small"><i class="fa fa-file-code-o"></i></span>
+                    {{ 'statement' | trans }}
+                </a>
+            </li>
+            <li class="{% if route == 'problem_send' %}is-active{% endif %}">
+                <a href="{{ path('problem_send', {problemId: problemId}) }}">
+                    <span class="icon is-small"><i class="fa fa-paper-plane"></i></span>
+                    <span>{{ 'send' | trans }}</span>
+                </a>
+            </li>
+        {% else %}
+            {% set tournamentId = app.request.attributes.get('tournamentId') %}
+            <li class="{% if route == 'tournament_problem' %}is-active{% endif %}">
+                <a href="{{ path('tournament_problem', {tournamentId: tournamentId, problemId: problemId}) }}">
+                    <span class="icon is-small"><i class="fa fa-file-code-o"></i></span>
+                    {{ 'statement' | trans }}
+                </a>
+            </li>
+            <li class="{% if route == 'tournament_problem_send' %}is-active{% endif %}">
+                <a href="{{ path('tournament_problem_send', {tournamentId: tournamentId, problemId: problemId}) }}">
+                    <span class="icon is-small"><i class="fa fa-paper-plane"></i></span>
+                    <span>{{ 'send' | trans }}</span>
+                </a>
+            </li>
+        {% endif %}
+
+        {% if 'tournament' not in route %}
+        <li class="{% if route == 'problem_statistics' %}is-active{% endif %}">
+            <a href="{{ path('problem_statistics', {problemId: problemId}) }}">
+                <span class="icon is-small"><i class="fa fa-bar-chart"></i></span>
+                <span>{{ 'statistics' | trans }}</span>
+            </a>
+        </li>
+        <li class="{% if route == 'problem_discussion' %}is-active{% endif %}">
+            <a href="{{ path('problem_discussion', {problemId: problemId}) }}">
+                <span class="icon is-small"><i class="fa fa-comments"></i></span>
+                <span>{{ 'discussion' | trans }}</span>
+            </a>
+        </li>
+        {% endif %}
+    </ul>
+</div>
