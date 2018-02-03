@@ -5,6 +5,12 @@
 {% block body %}
     {% include "@App/Problem/_tabs.html.twig" %}
 
+    <div class="content">
+        <div class="body">
+            <p>{{ problem.description | raw }}</p>
+        </div>
+    </div>
+
     <table class="table is-fullwidth is-bordered">
         <thead>
             <tr class="is-selected">

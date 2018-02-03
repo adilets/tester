@@ -5,12 +5,8 @@
     <h1>{{ problem.title }}</h1>
 
     <div class="limitations">
-        <div><span>Time limit: {{ problem.timeLimit }} {{ 'second' | trans }} </span></div>
+        <div><span>Time limit: {{ problem.timeLimit/1000 }} {{ 'second' | trans }} </span></div>
         <div><span>Memory limit: {{ problem.memoryLimit/1000 }} KB </span></div>
-    </div>
-
-    <div class="body">
-        <p>{{ problem.description | raw }}</p>
     </div>
 </div>
 

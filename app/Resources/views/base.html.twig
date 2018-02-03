@@ -3,15 +3,14 @@
     <head>
         <meta charset="UTF-8" />
         <title>{% block title %}Welcome!{% endblock %}</title>
-
         {% block stylesheets %}
             <link rel="stylesheet" href="{{ asset('vendor/font-awesome/css/font-awesome.css') }}">
             <link rel="stylesheet" href="{{ asset('vendor/bulma/css/bulma.css') }}">
         {% endblock %}
-
-        <script src="{{ asset('vendor/jquery/dist/jquery.js') }}"></script>
-
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+        {% block javascripts %}
+            <script src="{{ asset('vendor/jquery/dist/jquery.min.js') }}"></script>
+        {% endblock %}
     </head>
     <body>
         {% include "::navbar.html.twig" %}
@@ -21,8 +20,6 @@
                 {% block body %}{% endblock %}
             </div>
         </section>
-        {% block javascripts %}
 
-        {% endblock %}
     </body>
 </html>

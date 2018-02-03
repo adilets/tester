@@ -24,7 +24,11 @@
             <td>{{ solution.user }}</td>
             <td class="has-text-centered">{{ solution.problem }}</td>
             <td class="has-text-centered">{{ solution.language }}</td>
-            <td class="has-text-centered">{{ solution.status }}</td>
+            <td class="has-text-centered">
+                <span class="has-text-{% if solution.status.id == 1 %}success{% elseif solution.status.id < 8 %}danger{% else %}{% endif %}">
+                    {{ solution.status.title }}
+                </span>
+            </td>
             <td class="has-text-centered">{{ solution.test }}</td>
             <td class="has-text-centered">{{ solution.time | number_format(3) }}</td>
             <td class="has-text-centered">{{ (solution.memory/1024) | number_format(2) }} KB</td>

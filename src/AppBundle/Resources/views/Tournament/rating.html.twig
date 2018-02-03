@@ -8,34 +8,43 @@
             <tr>
                 <th class="has-text-centered">Rank</th>
                 <th class="has-text-centered">Name</th>
+                {% set i = 0 %}
+                {% set alphabet = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'] %}
                 {% for problem in tournament.problems %}
-                    <th class="has-addons-centered small">{{ problem.title }}</th>
+                    <th class="has-text-centered">{{ alphabet[i]|upper }}</th>
+                    {% set i = i + 1 %}
                 {% endfor %}
+                <th class="has-text-centered">Solved</th>
                 <th class="has-text-centered">Time</th>
             </tr>
         </thead>
         <tbody>
             {% set rank = 1 %}
-            {% for userId, value in totalTimes %}
+            {% for value in rating %}
                 <tr>
                     <td class="has-text-centered">{{ rank }}</td>
-                    <td class="has-text-centered">{{ userNames[userId] }}</td>
+                    <td class="has-text-centered">{{ value.user.username }}</td>
                     {% for problem in tournament.problems %}
-                        <td class="has-addons-centered small">
-                            {% if rating[userId][problem.id].accepted %}
-                                +{% if rating[userId][problem.id].count > 0 %}
-                                    {{ rating[userId][problem.id].count }}
+                        <td class="has-text-centered">
+                            {% set solvedProblem = value.solvedProblem(problem.id) %}
+                            {% if solvedProblem.isAccepted %}
+                                <span class="has-text-success">+{% if solvedProblem.tryCount > 0 %}
+                                    {{ solvedProblem.tryCount }}
                                 {% endif %}
+                                </span>
                                 <br/>
-                                {{ rating[userId][problem.id].sentTime }}
+                                {{ solvedProblem.sentTime }}
                             {% else %}
-                                {% if rating[userId][problem.id].count > 0 %}
-                                    -{{ rating[userId][problem.id].count }}
+                                {% if solvedProblem.tryCount > 0 %}
+                                    <span class="has-text-danger">
+                                        -{{ solvedProblem.tryCount }}
+                                    </span>
                                 {% endif %}
                             {% endif %}
                         </td>
                     {% endfor %}
-                    <td class="has-text-centered"> {{ (value/60)|number_format }}</td>
+                    <td class="has-text-centered">{{ value.solvedCount }}</td>
+                    <td class="has-text-centered"> {{ value.totalTime }}</td>
                 </tr>
             {% set rank = rank + 1 %}
             {% endfor %}

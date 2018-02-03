@@ -36,6 +36,13 @@ class Tournament
     private $description;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="is_public", type="boolean")
+     */
+    private $isPublic;
+
+    /**
      * @var \DateTime
      *
      * @ORM\Column(name="start", type="datetime")
@@ -287,5 +294,29 @@ class Tournament
             }
         }
         return false;
+    }
+
+    /**
+     * Set isPublic
+     *
+     * @param boolean $isPublic
+     *
+     * @return Tournament
+     */
+    public function setIsPublic($isPublic)
+    {
+        $this->isPublic = $isPublic;
+
+        return $this;
+    }
+
+    /**
+     * Get isPublic
+     *
+     * @return boolean
+     */
+    public function getIsPublic()
+    {
+        return $this->isPublic;
     }
 }
