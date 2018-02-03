@@ -2,7 +2,11 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\Problem;
 use AppBundle\Entity\Tournament;
+use AppBundle\Entity\User;
+use AppBundle\Model\Rating\Rating;
+use AppBundle\Model\Rating\SolvedProblemInfo;
 use DateTime;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -75,37 +79,53 @@ class TournamentController extends Controller
         $em = $this->getDoctrine()->getManager();
 
         $result = $em->getRepository('AppBundle:Solution')->getRating($tournament);
-        $userNames = $totalTimes = $rating = array();
+        $rating = array();
+
+        /**
+         * @var User $user
+         * @var Problem $problem
+         * @var Rating[] $rating
+         */
         foreach ($tournament->getUsers() as $user) {
+            $rating[$user->getId()] = new Rating($user);
             foreach ($tournament->getProblems() as $problem) {
-                $rating[$user->getId()][$problem->getId()] =  array(
-                    'count' => 0,
-                    'accepted' => false,
-                    'sentTime' => 0
-                );
+                $rating[$user->getId()]->addSolvedProblem(new SolvedProblemInfo($problem));
             }
-            $totalTimes[$user->getId()] = 0;
-            $userNames[$user->getId()] = $user->getUsername();
         }
 
         foreach ($result as $item) {
+            $ratingRow = $rating[$item['user_id']];
+            $solvedProblemInfo = $ratingRow->getSolvedProblem($item['problem_id']);
             if ($item['status_id'] == 1) {
                 $sentDate = new DateTime($item['sent_time']);
                 $sentDiffSecond = $this->getDateDiffInSecond($tournament->getStart(), $sentDate);
-                $totalTimes[$item['user_id']] += $sentDiffSecond;
-                $rating[$item['user_id']][$item['problem_id']]['accepted'] = true;
-
-                $rating[$item['user_id']][$item['problem_id']]['sentTime'] = $this->getDateDiffString($tournament->getStart(), $sentDate);
-            } elseif (!$rating[$item['user_id']][$item['problem_id']]['accepted']) {
-                $rating[$item['user_id']][$item['problem_id']]['count'] += $item['count'];
+                $rating[$item['user_id']]->addSpentTime($sentDiffSecond);
+                $solvedProblemInfo->setIsAccepted(true);
+                $solvedProblemInfo->setSentTime($this->getDateDiffString($tournament->getStart(), $sentDate));
+                $ratingRow->incSolvedCount();
+            } elseif (!$solvedProblemInfo->isAccepted()) {
+                $solvedProblemInfo->incTryCount();
             }
         }
-        asort($totalTimes);
+
+        uasort($rating, function ($value1, $value2) {
+            /**
+             * @var Rating $value1
+             * @var Rating $value2
+             */
+            if ($value1->getSolvedCount() > $value2->getSolvedCount()) {
+                return -1;
+            } elseif ($value1->getSolvedCount() == $value2->getSolvedCount()) {
+                if ($value1->getSpentTime() > $value2->getSpentTime()) {
+                    return -1;
+                }
+            }
+            return 1;
+        });
+
         return $this->render('AppBundle:Tournament:rating.html.twig', array(
-            'totalTimes' => $totalTimes,
             'tournament' => $tournament,
-            'rating' => $rating,
-            'userNames' => $userNames
+            'rating' => $rating
         ));
     }
 
@@ -132,6 +152,11 @@ class TournamentController extends Controller
         return ($secondDate->getTimestamp() - $firstDate->getTimestamp());
     }
 
+    /**
+     * @param DateTime $firstDate
+     * @param DateTime $secondDate
+     * @return string
+     */
     private function getDateDiffString(DateTime $firstDate, DateTime $secondDate) {
         $diff = $firstDate->diff($secondDate);
         $diffString = "";
@@ -148,6 +173,13 @@ class TournamentController extends Controller
         }
         $diffString .= $diff->s;
         return $diffString;
+    }
+
+    /**
+     * @param  $rating
+     */
+    private function ratingSort($rating) {
+
     }
 
 }
