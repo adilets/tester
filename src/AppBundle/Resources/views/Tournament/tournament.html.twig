@@ -6,7 +6,7 @@
     {% include "::tournament-helper.html.twig" %}
 
     {% if date("now") < date(tournament.start) %}
-    <p>Problems will be available after start tournament!</p>
+    <p>Problems will be available after starting tournament!</p>
     {% else %}
     <nav class="panel is-fullwidth is-bordered">
         {% for problem in tournament.problems %}

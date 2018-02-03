@@ -35,8 +35,6 @@ class TournamentController extends Controller
      */
     public function tournamentAction(Tournament $tournament)
     {
-        dump($tournament->hasAccess($this->getUser()));
-        die();
         return $this->render('AppBundle:Tournament:tournament.html.twig', array(
             'tournament' => $tournament
         ));
@@ -109,6 +107,25 @@ class TournamentController extends Controller
             'rating' => $rating,
             'userNames' => $userNames
         ));
+    }
+
+    /**
+     *
+     * @Route("/tournament/join/{id}", name="tournamentJoin")
+     * @ParamConverter("post", class="AppBundle:Tournament")
+     *
+     * @param Tournament $tournament
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function tournamentJoinAction(Tournament $tournament) {
+        if (!$tournament->hasAccess($this->getUser())) {
+            $em = $this->getDoctrine()->getManager();
+            $tournament->addUser($this->getUser());
+            $em->persist($tournament);
+            $em->flush();
+        }
+        return $this->redirectToRoute("tournamentRating", ['id' => $tournament->getId()]);
     }
 
     private function getDateDiffInSecond(DateTime $firstDate, DateTime $secondDate) {

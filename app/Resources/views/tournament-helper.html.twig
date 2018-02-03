@@ -1,6 +1,27 @@
 <h1 class="title">{{ tournament.title }}</h1>
-<p>Start: {{ tournament.start | date('d.m.y H:i') }}</p>
-<p>End: {{ tournament.end | date('d.m.y H:i') }}</p>
+
+<div class="container">
+    {% if tournament.notStarted %}
+        {% if tournament.access(app.user) %}
+            {% if tournament.isPublic %}
+                <span class="is-pulled-right"> You have already joined </span>
+            {% else %}
+                <span class="is-pulled-right"> Your request was accepted </span>
+            {% endif %}
+        {% else %}
+            {% if tournament.isPublic %}
+                <a class="button is-primary is-pulled-right" id="join-button">Join</a>
+            {% else %}
+                <a class="button is-primary is-pulled-right" id="request-button">Send request</a>
+            {% endif %}
+        {% endif %}
+    {% endif %}
+    <p>Start: {{ tournament.start | date('d.m.y H:i') }}</p>
+    <p>End: {{ tournament.end | date('d.m.y H:i') }}</p>
+    <p>Type: {% if tournament.isPublic %} Public {% else %} Private {% endif %}</p>
+    <p>Problem Count: {{ tournament.problems|length }}</p>
+</div>
+
 <br>
 <p>
     Status:
@@ -23,6 +44,7 @@
 <br/>
 <br/>
 
+
 <div class="tabs is-fullwidth is-boxed">
     <ul>
         <li class="{% if app.request.attributes.get('_route') == 'tournament' %}is-active{% endif %}"><a href="{{ path('tournament', {id: tournament.id}) }}">{{ 'tournament.problems' | trans }}</a></li>
@@ -30,3 +52,52 @@
         <li class="{% if app.request.attributes.get('_route') == 'tournamentRating' %}is-active{% endif %}"><a href="{{ path('tournamentRating', {id: tournament.id}) }}">{{ 'tournament.rating' | trans }}</a></li>
     </ul>
 </div>
+
+
+<div class="modal" id="join-modal">
+    <div class="modal-background"></div>
+    <div class="modal-card">
+        <header class="modal-card-head">
+            <p class="modal-card-title">Join to "{{ tournament.title }}"</p>
+            <button id="close" class="delete" aria-label="close"></button>
+        </header>
+        <section class="modal-card-body">
+            test
+            {#todo should add information about tournament start end duration #}
+        </section>
+        <footer class="modal-card-foot">
+            <a id="submit" class="button is-success" href="{{ path('tournamentJoin', {'id': tournament.id}) }}">Join</a>
+            <a class="button cancel">Cancel</a>
+        </footer>
+    </div>
+</div>
+
+<div class="modal" id="send-request-modal">
+    <div class="modal-background"></div>
+    <div class="modal-card">
+        <header class="modal-card-head">
+            <p class="modal-card-title">Send request to "{{ tournament.title }}"</p>
+            <button class="delete" aria-label="close"></button>
+        </header>
+        <section class="modal-card-body">
+            test
+            {#todo should add information about tournament start end duration #}
+        </section>
+        <footer class="modal-card-foot">
+            <a id="request" class="button is-success" href="{{ path('tournamentJoin', {'id': tournament.id}) }}">Join</a>
+            <a class="button cancel">Cancel</a>
+        </footer>
+    </div>
+</div>
+
+<script type="application/javascript">
+    $(document).ready(function(){
+        $('#join-button').click(function() {
+            $('#join-modal').addClass('is-active');
+        });
+
+        $('.delete, .cancel').click(function() {
+            $('#join-modal').removeClass('is-active');
+        })
+    });
+</script>

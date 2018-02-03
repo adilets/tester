@@ -21,6 +21,7 @@ class TournamentAdmin extends AbstractAdmin
             ->add('description')
             ->add('start')
             ->add('end')
+            ->add('isPublic')
         ;
     }
 
@@ -35,6 +36,7 @@ class TournamentAdmin extends AbstractAdmin
             ->add('description')
             ->add('start')
             ->add('end')
+            ->add('isPublic', null, ['editable' => true])
             ->add('_action', null, array(
                 'actions' => array(
                     'show' => array(),
@@ -55,6 +57,7 @@ class TournamentAdmin extends AbstractAdmin
             ->add('description')
             ->add('start', 'sonata_type_datetime_picker')
             ->add('end', 'sonata_type_datetime_picker')
+            ->add('isPublic')
             ->add('problems', 'sonata_type_model', [
                 'multiple' => true,
                 'btn_add' => false,
@@ -80,6 +83,7 @@ class TournamentAdmin extends AbstractAdmin
             ->add('description')
             ->add('start')
             ->add('end')
+            ->add('isPublic')
             ->add('problems')
         ;
     }
