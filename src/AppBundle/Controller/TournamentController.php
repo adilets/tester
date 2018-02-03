@@ -176,12 +176,4 @@ class TournamentController extends Controller
         $diffString .= $diff->s;
         return $diffString;
     }
-
-    /**
-     * @param  $rating
-     */
-    private function ratingSort($rating) {
-
-    }
-
 }
