@@ -113,12 +113,14 @@ class TournamentController extends Controller
              * @var Rating $value1
              * @var Rating $value2
              */
-            if ($value1->getSolvedCount() > $value2->getSolvedCount()) {
+            if (
+                $value1->getSolvedCount() > $value2->getSolvedCount() ||
+                (
+                    $value1->getSolvedCount() == $value2->getSolvedCount() &&
+                    $value1->getSpentTime() < $value2->getSpentTime())
+                )
+            {
                 return -1;
-            } elseif ($value1->getSolvedCount() == $value2->getSolvedCount()) {
-                if ($value1->getSpentTime() > $value2->getSpentTime()) {
-                    return -1;
-                }
             }
             return 1;
         });
