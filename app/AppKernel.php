@@ -28,6 +28,10 @@ class AppKernel extends Kernel
 	        new Gos\Bundle\WebSocketBundle\GosWebSocketBundle(),
 	        new Gos\Bundle\PubSubRouterBundle\GosPubSubRouterBundle(),
             new Stfalcon\Bundle\TinymceBundle\StfalconTinymceBundle(),
+            new FOS\RestBundle\FOSRestBundle(),
+            new FOS\CommentBundle\FOSCommentBundle(),
+            new JMS\SerializerBundle\JMSSerializerBundle(),
+            new Symfony\Bundle\AsseticBundle\AsseticBundle(),
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {

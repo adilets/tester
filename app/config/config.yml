@@ -119,3 +119,18 @@ stfalcon_tinymce:
     theme:
         simple:
             theme: "modern"
+
+fos_comment:
+    db_driver: orm
+    class:
+        model:
+            comment: AppBundle\Entity\Comment
+            thread: AppBundle\Entity\Thread
+
+assetic:
+    debug:          '%kernel.debug%'
+    use_controller: '%kernel.debug%'
+    filters:
+        cssrewrite: ~
+
+    bundles: [ "FOSCommentBundle" ]

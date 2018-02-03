@@ -1,0 +1,48 @@
+{% extends "::base.html.twig" %}
+
+{% block title %}AppBundle:Problem:problem{% endblock %}
+
+{% block body %}
+    {% include "@App/Problem/_tabs.html.twig" %}
+
+    {{ form_start(form) }}
+
+    <div class="field is-horizontal">
+        <div class="field-label is-normal">
+            {{ form_label(form.compiler) }}
+        </div>
+        <div class="field-body">
+            <div class="select">
+                {{ form_widget(form.compiler) }}
+            </div>
+        </div>
+    </div>
+    <div class="field is-horizontal">
+        <div class="field-label is-normal">
+
+        </div>
+        <div class="field-body">
+            <div class="field">
+                <div class="control">
+                    {{ form_widget(form.code_input) }}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="field is-horizontal">
+        <div class="field-label">
+
+        </div>
+        <div class="field-body">
+            <div class="field">
+                <div class="control">
+                    {{ form_widget(form.submit, {attr: {class: 'button is-primary'}}) }}
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    {{ form_widget(form) }}
+    {{ form_end(form) }}
+{% endblock %}

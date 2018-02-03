@@ -3,22 +3,19 @@
 {% block title %}AppBundle:Problem:problem{% endblock %}
 
 {% block body %}
-    {% include "::tabs.html.twig" %}
+    {% include "@App/Problem/_tabs.html.twig" %}
 
-    <div class="title">
-        <h1>{{ problem.title }}</h1>
-    </div>
-
-    <div class="limitations">
-        <div><span>Time limit: {{ problem.timeLimit }} {{ 'second' | trans }} </span></div>
-        <div><span>Memory limit: {{ problem.memoryLimit/1000 }} KB </span></div>
-    </div>
-
-    <div class="body">
-        <p>{{ problem.description | raw }}</p>
-    </div>
-
-    {{ form_start(form) }}
-    {{ form_widget(form) }}
-    {{ form_end(form) }}
+    <table class="table is-fullwidth is-bordered">
+        <thead>
+            <tr class="is-selected">
+                <th>In</th><th>Out</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>{{ statement.in | nl2br }}</td>
+                <td>{{ statement.in | nl2br }}</td>
+            </tr>
+        </tbody>
+    </table>
 {% endblock %}
