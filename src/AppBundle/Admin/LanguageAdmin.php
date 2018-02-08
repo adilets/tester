@@ -20,6 +20,7 @@ class LanguageAdmin extends AbstractAdmin
             ->add('command')
             ->add('type')
             ->add('createdAt')
+            ->add('extension')
         ;
     }
 
@@ -37,6 +38,7 @@ class LanguageAdmin extends AbstractAdmin
 		        'expanded' => true,
 				'required' => true
 	        ])
+            ->add('extension')
         ;
     }
 
@@ -48,6 +50,7 @@ class LanguageAdmin extends AbstractAdmin
 	        ->add('command')
 	        ->add('type')
 	        ->add('createdAt')
+	        ->add('extension')
         ;
     }
 
@@ -67,6 +70,7 @@ class LanguageAdmin extends AbstractAdmin
                     'delete' => []
                 ]
             ))
+            ->add('extension')
         ;
     }
 }
