@@ -1,11 +1,17 @@
 {% extends "::base.html.twig" %}
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('vendor/ace-builds/src-min/ace.js') }}"></script>
+    <script src="{{ asset('vendor/ace-builds/src-min/mode-c_cpp.js') }}"></script>
+    <script src="{{ asset('vendor/ace-builds/src-min/mode-java.js') }}"></script>
+{% endblock %}
 
 {% block title %}AppBundle:Problem:problem{% endblock %}
 
 {% block body %}
     {% include "@App/Problem/_tabs.html.twig" %}
 
-    {{ form_start(form) }}
+    {{ form_start(form, {attr: {id: 'sent_form'}}) }}
 
     <div class="field is-horizontal">
         <div class="field-label is-normal">
@@ -25,6 +31,7 @@
             <div class="field">
                 <div class="control">
                     {{ form_widget(form.code_input) }}
+                    <div id="editor" style="width: 70%; border: solid 1px #dbdbdb;"></div>
                 </div>
             </div>
         </div>
@@ -45,4 +52,33 @@
 
     {{ form_widget(form) }}
     {{ form_end(form) }}
+
+    <script type="application/javascript">
+        var editor = ace.edit('editor');
+        editor.setOptions({maxLines:30, minLines:20});
+        editor.setAutoScrollEditorIntoView(true);
+        editor.setShowPrintMargin(false);
+
+        editor.session.on('change', function(e) {
+            $('#form_code_input').val(editor.getValue());
+        });
+
+        changeAceMode('c_cpp');
+
+        $('#form_compiler').change(function() {
+            var language = $('#form_compiler option:selected').text(), modeName = '';
+            if (language === 'C++') {
+               modeName = 'c_cpp';
+            } else {
+               modeName = language.toLowerCase();
+            }
+           changeAceMode(modeName);
+        });
+
+        function changeAceMode(modeName) {
+            var cppMode = ace.require('ace/mode/' + modeName).Mode;
+            editor.session.setMode(new cppMode);
+        }
+
+    </script>
 {% endblock %}

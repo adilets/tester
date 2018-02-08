@@ -78,7 +78,7 @@ class ProblemController extends Controller
         $currentUser = $this->getUser();
         $form = $this->createFormBuilder()
                      ->add('compiler', EntityType::class, ['class' => 'AppBundle\Entity\Language', 'choice_label' => 'title'])
-                     ->add("code_input", TextareaType::class, ['label' => false, 'attr' => ['cols' => 80, 'rows' => 30]])
+                     ->add("code_input", TextareaType::class, ['label' => false, 'attr' => ['style' => 'display: none']])
                      ->add("submit", SubmitType::class)
                      ->getForm();
 
@@ -102,7 +102,7 @@ class ProblemController extends Controller
             $problemService = $this->get("app.service.problem");
             $problemService->runChecker($solution);
 
-            $this->redirectToRoute("app_tournament_index");
+            return $this->redirectToRoute("solutions");
         }
 
         return $this->render('AppBundle:Problem:send.html.twig', [
