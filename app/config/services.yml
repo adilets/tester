@@ -1,7 +1,5 @@
 # Learn more about services, parameters and containers at
 # https://symfony.com/doc/current/service_container.html
-parameters:
-    utility_path: '%kernel.root_dir%/../utility/main'
 
 services:
     # default configuration for services in *this* file
@@ -78,6 +76,13 @@ services:
         public: true
         class: AppBundle\Service\Problem
         arguments: ['@service_container']
+
+    app.eventlistener.subscriber:
+        public: true
+        class: AppBundle\EventListener\Subscriber
+        arguments: ['@service_container']
+        tags:
+            - { name: doctrine.event_subscriber, connection: default }
 
     app.topic.chat:
         class: AppBundle\Topic\TesterTopic

@@ -7,8 +7,6 @@ use AppBundle\Entity\Problem as ProblemEntity;
 
 class Problem {
 
-    const TESTS_DIR = '../web/uploads/problems/tests/';
-
     private $container;
     /**
      * Problem constructor.
@@ -19,13 +17,15 @@ class Problem {
     }
 
     public function runChecker(Solution $solution) {
-        $utilityPath = $this->container->get('kernel')->getRootDir() .'/../utility';
-        exec("cd {$utilityPath} && ./main -solution-id={$solution->getId()} > /dev/null &");
+        $utilityPath = $this->getUtilityPath();
+        if (chdir($utilityPath)) {
+            exec("sudo {$utilityPath}/main -solution-id={$solution->getId()} > /dev/null &");
+        }
     }
 
     public function getStatement(ProblemEntity $problem) {
         $problemId = $problem->getId();
-        $path = self::TESTS_DIR . $problemId . '/';
+        $path = $this->container->getParameter('utility_path') . "/tests/$problemId/";
 
         $statement = [];
 
@@ -41,5 +41,37 @@ class Problem {
         }
 
         return $statement;
+    }
+
+    public function extractTests(ProblemEntity $problem) {
+        if (null === $problem->getFile()) {
+            return;
+        }
+        $zipper = new \ZipArchive();
+        $tests = $zipper->open($problem->getFile());
+
+        if ($tests === true) {
+            $testsPath = $this->getTestsPath($problem->getId());
+            $zipper->extractTo($testsPath);
+            $zipper->close();
+            shell_exec("sudo /bin/cp -r {$testsPath} {$this->getChrootPath()}/utility/tests");
+            shell_exec("sudo /bin/cp -r {$this->getCheckerPath()} {$this->getChrootPath()}/utility/checkers/checker_{$problem->getId()}");
+        }
+    }
+
+    private function getUtilityPath() {
+        return $this->container->getParameter('utility_path');
+    }
+
+    private function getTestsPath($problemId) {
+        return $this->getUtilityPath(). "/tests/$problemId/";
+    }
+
+    private function getCheckerPath() {
+        return $this->getUtilityPath() . "/checkers/checker_1";
+    }
+
+    private function getChrootPath() {
+        return $this->container->getParameter('chroot_path');
     }
 }

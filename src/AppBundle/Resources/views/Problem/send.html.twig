@@ -62,20 +62,18 @@
         editor.session.on('change', function(e) {
             $('#form_code_input').val(editor.getValue());
         });
-
-        changeAceMode('c_cpp');
-
+        changeAceMode();
         $('#form_compiler').change(function() {
-            var language = $('#form_compiler option:selected').text(), modeName = '';
-            if (language === 'C++') {
-               modeName = 'c_cpp';
-            } else {
-               modeName = language.toLowerCase();
-            }
-           changeAceMode(modeName);
+           changeAceMode();
         });
 
-        function changeAceMode(modeName) {
+        function changeAceMode() {
+            var language = $('#form_compiler option:selected').text(), modeName = '';
+            if (language === 'C++') {
+                modeName = 'c_cpp';
+            } else {
+                modeName = language.toLowerCase();
+            }
             var cppMode = ace.require('ace/mode/' + modeName).Mode;
             editor.session.setMode(new cppMode);
         }

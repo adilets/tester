@@ -15,8 +15,6 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
  */
 class Problem
 {
-    const SERVER_PATH_TO_IMAGE_FOLDER = '../utility/uploads/tests';
-
     /**
      * Unmapped property to handle file uploads
      */
@@ -43,26 +41,6 @@ class Problem
     {
         return $this->file;
     }
-
-	/**
-	 * @ORM\PostPersist
-	 * @ORM\PostUpdate
-	 */
-	public function lifecyclePostFlush() {
-		if (null === $this->getFile()) {
-			return;
-		}
-
-		$zipper = new \ZipArchive();
-		$tests = $zipper->open($this->getFile());
-
-		if ($tests === true) {
-			$zipper->extractTo(__DIR__ .'/../../../utility/tests/' . $this->getId());
-			$zipper->close();
-		}
-		$this->setFile(null);
-	}
-
 
     /**
      * @var int

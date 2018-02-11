@@ -4,7 +4,6 @@
 
 {% block body %}
     {% include "@App/Problem/_tabs.html.twig" %}
-
     <div class="content">
         <div class="body">
             <p>{{ problem.description | raw }}</p>
@@ -20,7 +19,7 @@
         <tbody>
             <tr>
                 <td>{{ statement.in | nl2br }}</td>
-                <td>{{ statement.in | nl2br }}</td>
+                <td>{{ statement.out | nl2br }}</td>
             </tr>
         </tbody>
     </table>
