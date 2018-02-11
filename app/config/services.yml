@@ -77,6 +77,13 @@ services:
         class: AppBundle\Service\Problem
         arguments: ['@service_container']
 
+    app.eventlistener.subscriber:
+        public: true
+        class: AppBundle\EventListener\Subscriber
+        arguments: ['@service_container']
+        tags:
+            - { name: doctrine.event_subscriber, connection: default }
+
     app.topic.chat:
         class: AppBundle\Topic\TesterTopic
         tags:

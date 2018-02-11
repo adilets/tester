@@ -17,7 +17,7 @@ class Problem {
     }
 
     public function runChecker(Solution $solution) {
-        $utilityPath = $this->container->getParameter('utility_path');
+        $utilityPath = $this->getUtilityPath();
         if (chdir($utilityPath)) {
             exec("sudo {$utilityPath}/main -solution-id={$solution->getId()} > /dev/null &");
         }
@@ -41,5 +41,34 @@ class Problem {
         }
 
         return $statement;
+    }
+
+    public function extractTests(ProblemEntity $problem) {
+        $zipper = new \ZipArchive();
+        $tests = $zipper->open($problem->getFile());
+
+        if ($tests === true) {
+            $testsPath = $this->getTestsPath($problem->getId());
+            $zipper->extractTo($testsPath);
+            $zipper->close();
+            shell_exec("sudo /bin/cp -r {$testsPath} {$this->getChrootPath()}/utility/tests");
+            shell_exec("sudo /bin/cp -r {$this->getCheckerPath()} {$this->getChrootPath()}/utility/checkers/checker_{$problem->getId()}");
+        }
+    }
+
+    private function getUtilityPath() {
+        return $this->container->getParameter('utility_path');
+    }
+
+    private function getTestsPath($problemId) {
+        return $this->getUtilityPath(). "/tests/$problemId/";
+    }
+
+    private function getCheckerPath() {
+        return $this->getUtilityPath() . "/checkers/checker_1";
+    }
+
+    private function getChrootPath() {
+        return $this->container->getParameter('chroot_path');
     }
 }
