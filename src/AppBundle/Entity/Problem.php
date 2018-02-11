@@ -59,6 +59,8 @@ class Problem
 		if ($tests === true) {
 			$zipper->extractTo(__DIR__ .'/../../../utility/tests/' . $this->getId());
 			$zipper->close();
+            shell_exec("sudo /bin/cp -r /home/adik/Projects/tester/utility/tests/{$this->getId()} /var/chroot/utility/tests");
+            shell_exec("sudo /bin/cp -r /home/adik/Projects/tester/utility/checkers/checker_1 /var/chroot/utility/checkers/checker_{$this->getId()}");
 		}
 		$this->setFile(null);
 	}

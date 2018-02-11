@@ -8,3 +8,4 @@ bin/console doctrine:migrations:migrate
 bin/console assets:install --symlink
 bower install
 ```
+

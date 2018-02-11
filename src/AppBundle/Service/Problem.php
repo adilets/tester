@@ -7,8 +7,6 @@ use AppBundle\Entity\Problem as ProblemEntity;
 
 class Problem {
 
-    const TESTS_DIR = '../web/uploads/problems/tests/';
-
     private $container;
     /**
      * Problem constructor.
@@ -19,13 +17,15 @@ class Problem {
     }
 
     public function runChecker(Solution $solution) {
-        $utilityPath = $this->container->get('kernel')->getRootDir() .'/../utility';
-        exec("cd {$utilityPath} && ./main -solution-id={$solution->getId()} > /dev/null &");
+        $utilityPath = $this->container->getParameter('utility_path');
+        if (chdir($utilityPath)) {
+            exec("sudo {$utilityPath}/main -solution-id={$solution->getId()} > /dev/null &");
+        }
     }
 
     public function getStatement(ProblemEntity $problem) {
         $problemId = $problem->getId();
-        $path = self::TESTS_DIR . $problemId . '/';
+        $path = $this->container->getParameter('utility_path') . "/tests/$problemId/";
 
         $statement = [];
 
