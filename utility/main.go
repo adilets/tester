@@ -115,10 +115,14 @@ func init() {
 		log.Fatal(err)
 	}
 
+	err = os.MkdirAll(fmt.Sprintf("/utility/uploads/%d", userId), 0777)
+	if err != nil {
+		log.Fatal(err)
+	}
 	if extension == ".java" {
-		err = ioutil.WriteFile(fmt.Sprintf("/uploads/%d/Main%s", userId, extension), []byte(sourceCode), 0777)
+		err = ioutil.WriteFile(fmt.Sprintf("/utility/uploads/%d/Main%s", userId, extension), []byte(sourceCode), 0777)
 	} else {
-		err = ioutil.WriteFile(fmt.Sprintf("/uploads/%d/%d%s", userId, problemId, extension), []byte(sourceCode), 0777)
+		err = ioutil.WriteFile(fmt.Sprintf("/utility/uploads/%d/%d%s", userId, problemId, extension), []byte(sourceCode), 0777)
 	}
 
 	if err != nil {
@@ -216,7 +220,7 @@ func main() {
 		//cmd.SysProcAttr.Credential = &syscall.Credential{Uid: 1001, Gid: 1001}
 		out.Reset()
 		cmd.Stdout = &out
-		cmd.Dir = fmt.Sprintf("/uploads/%d/", userId)
+		cmd.Dir = fmt.Sprintf("/utility/uploads/%d/", userId)
 		result := 0
 		var memoryUsage int64
 
@@ -355,7 +359,7 @@ func Compile() (stderr string, exitCode int) {
 func RunCommand(name string, args ...string) (stdout string, stderr string, exitCode int) {
 	var outbuf, errbuf bytes.Buffer
 	cmd := exec.Command(name, args...)
-	cmd.Dir = fmt.Sprintf("/uploads/%d", userId)
+	cmd.Dir = fmt.Sprintf("/utility/uploads/%d", userId)
 	cmd.Stdout = &outbuf
 	cmd.Stderr = &errbuf
 
