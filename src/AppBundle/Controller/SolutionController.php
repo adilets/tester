@@ -2,6 +2,7 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\Solution;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -20,7 +21,26 @@ class SolutionController extends Controller
         $solutions = $em->getRepository('AppBundle:Solution')->findBy([], ['id' => 'DESC']);
 
         return $this->render('@App/Solution/index.html.twig', array(
+            'currentUser' => $this->getUser(),
             'solutions' => $solutions,
+        ));
+    }
+
+    /**
+     * @Route("/solution/{id}", name="solution")
+     * @Method("GET")
+     * @param Solution $solution
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function solutionAction(Solution $solution)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $testResults = $em->getRepository('AppBundle:TestResult')->findBy(['solution' => $solution]);
+
+        return $this->render('@App/Solution/solution.html.twig', array(
+            'solution' => $solution,
+            'testResults' => $testResults,
         ));
     }
 

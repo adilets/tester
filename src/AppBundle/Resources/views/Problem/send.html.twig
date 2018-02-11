@@ -74,8 +74,8 @@
             } else {
                 modeName = language.toLowerCase();
             }
-            var cppMode = ace.require('ace/mode/' + modeName).Mode;
-            editor.session.setMode(new cppMode);
+            var mode = ace.require('ace/mode/' + modeName).Mode;
+            editor.session.setMode(new mode);
         }
 
     </script>

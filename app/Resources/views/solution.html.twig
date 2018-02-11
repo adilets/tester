@@ -15,7 +15,13 @@
     <tbody>
     {% for solution in solutions %}
         <tr>
-            <td class="has-text-centered">{{ solution.id }}</td>
+            <td class="has-text-centered">
+                {% if ("ROLE_SUPER_ADMIN" in currentUser.roles) or currentUser.id == solution.user.id %}
+                <a href="{{ path('solution', {id: solution.id}) }}">{{ solution.id }}</a>
+                {% else %}
+                    {{ solution.id }}
+                {% endif %}
+            </td>
             <td class="has-text-centered">
                 {% if solution.createdAt %}
                     {{ solution.createdAt|date('d.m.Y H:i:s') }}
