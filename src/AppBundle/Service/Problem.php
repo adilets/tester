@@ -44,6 +44,9 @@ class Problem {
     }
 
     public function extractTests(ProblemEntity $problem) {
+        if (null === $problem->getFile()) {
+            return;
+        }
         $zipper = new \ZipArchive();
         $tests = $zipper->open($problem->getFile());
 
