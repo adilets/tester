@@ -1,0 +1,84 @@
+{% extends 'base.html.twig' %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('vendor/ace-builds/src-min/ace.js') }}"></script>
+    <script src="{{ asset('vendor/ace-builds/src-min/mode-c_cpp.js') }}"></script>
+    <script src="{{ asset('vendor/ace-builds/src-min/mode-java.js') }}"></script>
+{% endblock %}
+
+{% block body %}
+    <div class="tile is-ancestor">
+        <div class="tile is-vertical is-8">
+            <div class="tile is-child notification">
+                <div class="content">
+                    <p class="subtitle">Source Code</p>
+                    <p> Compiler: {{ solution.language.title }}</p>
+                    <div id="source_code" style="width: 100%; border: solid 1px #dbdbdb;"></div>
+                </div>
+            </div>
+            {% if solution.status.id == 5 %}
+            <div class="tile is-parent">
+                <article class="tile is-child notification is-danger">
+                    <p class="subtitle">Compiler Message</p>
+                    <div class="content">
+                        {{ solution.compilerMessage }}
+                    </div>
+                </article>
+            </div>
+            {% endif %}
+        </div>
+        <div class="tile is-parent">
+            <article class="tile is-child notification">
+                <div class="content">
+                    <div class="content">
+                        <table class="table is-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Test</th>
+                                    <th>Result</th>
+                                    <th>Time</th>
+                                    <th>Memory</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for result in testResults %}
+                                <tr>
+                                    <td>{{ result.test }}</td>
+                                    <td>
+                                        <span class="has-text-{% if result.status.id == 1 %}success{% elseif result.status.id < 8 %}danger{% else %}{% endif %}">
+                                        {{ result.status.title }}
+                                        </span>
+                                    </td>
+                                    <td>{{ result.time | number_format(3) }}</td>
+                                    <td>{{ (result.memory/1024) | number_format(2) }} KB</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </article>
+        </div>
+    </div>
+
+    <script type="application/javascript">
+        var editor = ace.edit('source_code');
+        editor.session.setValue(`{{ solution.sourceCode }}`);
+        editor.setOptions({maxLines:30, minLines:20});
+        editor.setReadOnly(true);
+        editor.setShowPrintMargin(false);
+        editor.session.selection.clearSelection()
+
+        {% if solution.language.title == 'C++' %}
+            var modeName = 'c_cpp';
+        {% else %}
+            var modeName = '{{ solution.language.title | lower }}';
+        {% endif %}
+
+        var mode = ace.require('ace/mode/' + modeName).Mode;
+        editor.session.setMode(new mode);
+        editor.resize();
+    </script>
+
+{% endblock %}
