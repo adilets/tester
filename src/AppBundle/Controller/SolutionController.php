@@ -21,7 +21,6 @@ class SolutionController extends Controller
         $solutions = $em->getRepository('AppBundle:Solution')->findBy([], ['id' => 'DESC']);
 
         return $this->render('@App/Solution/index.html.twig', array(
-            'currentUser' => $this->getUser(),
             'solutions' => $solutions,
         ));
     }
