@@ -5,7 +5,7 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\Problem;
 use AppBundle\Entity\Tournament;
 use AppBundle\Entity\User;
-use AppBundle\Model\Rating\Rating;
+use AppBundle\Model\Rating\TournamentRating;
 use AppBundle\Model\Rating\SolvedProblemInfo;
 use DateTime;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -78,16 +78,16 @@ class TournamentController extends Controller
 
         $em = $this->getDoctrine()->getManager();
 
-        $result = $em->getRepository('AppBundle:Solution')->getRating($tournament);
+        $result = $em->getRepository('AppBundle:Solution')->getTournamentRating($tournament);
         $rating = array();
 
         /**
          * @var User $user
          * @var Problem $problem
-         * @var Rating[] $rating
+         * @var TournamentRating[] $rating
          */
         foreach ($tournament->getUsers() as $user) {
-            $rating[$user->getId()] = new Rating($user);
+            $rating[$user->getId()] = new TournamentRating($user);
             foreach ($tournament->getProblems() as $problem) {
                 $rating[$user->getId()]->addSolvedProblem(new SolvedProblemInfo($problem));
             }
@@ -110,8 +110,8 @@ class TournamentController extends Controller
 
         uasort($rating, function ($value1, $value2) {
             /**
-             * @var Rating $value1
-             * @var Rating $value2
+             * @var TournamentRating $value1
+             * @var TournamentRating $value2
              */
             if (
                 $value1->getSolvedCount() > $value2->getSolvedCount() ||

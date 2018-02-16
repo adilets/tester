@@ -1,7 +1,7 @@
 <?php
 namespace AppBundle\Model\Rating;
 
-class Rating {
+class TournamentRating {
     private $user;
     private $solvedProblems;
     private $spentTime;
