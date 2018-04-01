@@ -19,9 +19,38 @@ class User extends BaseUser
 	 */
 	protected $id;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Group")
+     * @ORM\JoinColumn(name="group_id", referencedColumnName="id")
+     */
+    protected $group;
+
 	public function __construct()
 	{
 		parent::__construct();
-		// your own logic
 	}
+
+    /**
+     * Set group
+     *
+     * @param \AppBundle\Entity\Group $group
+     *
+     * @return User
+     */
+    public function setGroup(\AppBundle\Entity\Group $group = null)
+    {
+        $this->group = $group;
+
+        return $this;
+    }
+
+    /**
+     * Get group
+     *
+     * @return \AppBundle\Entity\Group
+     */
+    public function getGroup()
+    {
+        return $this->group;
+    }
 }

@@ -12,7 +12,8 @@
 
         <div id="navMenuDocumentation" class="navbar-menu">
             <div class="navbar-start">
-                <a class="navbar-item {% if app.request.get('_route') == 'problems'%}is-active{% endif %}" href="{{ path('problems') }}">
+                <a class="navbar-item {% if app.request.get('_route') == 'problems'%}is-active{% endif %}"
+                   href="{{ path('problems') }}">
                     {{ 'problems_archive' | trans }}
                 </a>
                 <a class="navbar-item {% if app.request.get('_route') == 'solutions'%}is-active{% endif %}"
@@ -31,7 +32,7 @@
 
             <div class="navbar-end">
                 {% if is_granted("IS_AUTHENTICATED_FULLY") %}
-                    <a class="navbar-item " href="{{ path('fos_user_profile_show') }}">
+                    <a class="navbar-item " href="{{ path('user', {username: app.user.username}) }}">
                         {{ app.user.username }}
                     </a>
                     <a class="navbar-item " href="{{ path('fos_user_security_logout') }}">

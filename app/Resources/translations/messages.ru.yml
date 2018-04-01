@@ -15,3 +15,6 @@ tournament:
   problems: Задачи
   sent: Отправленные
   rating: Рейтинг
+
+user:
+  last_login: Последний вход

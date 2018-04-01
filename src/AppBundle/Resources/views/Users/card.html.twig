@@ -1,0 +1,23 @@
+{% extends "::base.html.twig" %}
+
+{% block title %}AppBundle:Users:user{% endblock %}
+
+{% block body %}
+    <div class="columns">
+        <div class="column is-one-third">
+            {% include "@App/Users/_avatar.html.twig" %}
+        </div>
+        <div class="column highlight-full">
+            {% include "@App/Users/_tabs.html.twig" %}
+
+            {% for problem in problems %}
+                <a href="{{ path('problem', {problemId: problem.id}) }}">
+                    <span class="icon is-large fa-border {% if problem not in problemsResolved %}has-text-info{% endif %}"
+                          style="margin-top: 0.25rem; {% if problem in problemsResolved %}border-color: #00d1b2; background-color: #00d1b2; color: white;{% endif %}">
+                            {{ problem.id }}
+                    </span>
+                </a>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}
