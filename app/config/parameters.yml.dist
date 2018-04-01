@@ -15,5 +15,9 @@ parameters:
     mailer_user: test
     mailer_password: test
 
+    rating_per_page: 1
+    solution_per_page: 20
+    problem_per_page: 50
+
     # A secret key that's used to generate certain security-related tokens
     secret: ThisTokenIsNotSoSecretChangeIt

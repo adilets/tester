@@ -21,12 +21,17 @@ class ProblemController extends Controller
 	/**
 	 * @Route("/problems", name="problems")
 	 */
-	public function indexAction() {
+	public function indexAction(Request $request) {
 		$em = $this->getDoctrine()->getManager();
 		$problems = $em->getRepository("AppBundle:Problem")->findBy(["public" => true]);
 
+        $perPage = $this->getParameter('problem_per_page');
+        $paginator  = $this->get('knp_paginator');
+        $pagination = $paginator->paginate($problems, $request->query->getInt('page', 1), $perPage);
+
+
 		return $this->render('AppBundle:Problem:index.html.twig', [
-			"problems" => $problems
+			"problems" => $pagination
 		]);
 	}
 

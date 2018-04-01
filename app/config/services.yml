@@ -3,6 +3,9 @@
 parameters:
     utility_path: '%kernel.root_dir%/../utility/main'
 
+parameters:
+    utility_path: '%kernel.root_dir%/../utility/main'
+
 services:
     # default configuration for services in *this* file
     _defaults:

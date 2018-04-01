@@ -165,3 +165,7 @@ assetic:
         cssrewrite: ~
 
     bundles: [ "FOSCommentBundle" ]
+
+knp_paginator:
+    template:
+        pagination: 'AppBundle::pagination.html.twig'

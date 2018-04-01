@@ -11,6 +11,7 @@ use DateTime;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Symfony\Component\HttpFoundation\Request;
 
 class TournamentController extends Controller
 {
@@ -53,15 +54,20 @@ class TournamentController extends Controller
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function tournamentSentAction(Tournament $tournament) {
+    public function tournamentSentAction(Tournament $tournament, Request $request) {
 
         $em = $this->getDoctrine()->getManager();
 
         $solutions = $em->getRepository('AppBundle:Solution')->findBy(['tournament' => $tournament->getId()], ['createdAt' => 'DESC']);
 
+        $perPage = $this->getParameter('solution_per_page');
+
+        $paginator  = $this->get('knp_paginator');
+        $pagination = $paginator->paginate($solutions, $request->query->getInt('page', 1), $perPage);
+
         return $this->render('AppBundle:Tournament:sent.html.html.twig', array(
             'tournament' => $tournament,
-            'solutions' => $solutions
+            'pagination' => $pagination
         ));
     }
 
