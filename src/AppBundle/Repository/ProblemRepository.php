@@ -18,7 +18,7 @@ class ProblemRepository extends \Doctrine\ORM\EntityRepository
         $query = $qb
             ->innerJoin('AppBundle:Solution', 's', 'WITH', 's.problem = p')
             ->andWhere('s.user = :user')
-            ->andWhere('s.status_id = :status')
+            ->andWhere('s.status = :status')
             ->setParameter('status', 1)
             ->setParameter('user', $user)
         ;
