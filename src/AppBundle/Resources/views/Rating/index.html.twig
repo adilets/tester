@@ -13,7 +13,7 @@
         </tr>
         </thead>
         <tbody>
-        {% set rank = app.request.get('page')|number_format * perPage %}
+        {% set rank = app.request.get('page', 1)|number_format * perPage %}
         {% for value in pagination %}
             <tr>
                 <td class="has-text-centered">{{ rank }}</td>

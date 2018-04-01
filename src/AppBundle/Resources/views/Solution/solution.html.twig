@@ -64,16 +64,15 @@
 
     <script type="application/javascript">
         var editor = ace.edit('source_code');
-        editor.session.setValue(`{{ solution.sourceCode }}`);
+        editor.session.setValue($('<textarea />').html(`{{ solution.sourceCode}}`).text());
         editor.setOptions({maxLines:30, minLines:20});
         editor.setReadOnly(true);
         editor.setShowPrintMargin(false);
         editor.session.selection.clearSelection()
 
-        {% if solution.language.title == 'C++' %}
-            var modeName = 'c_cpp';
-        {% else %}
-            var modeName = '{{ solution.language.title | lower }}';
+        var modeName = 'c_cpp';
+        {% if solution.language.title != 'C++' %}
+            modeName = '{{ solution.language.title | lower }}';
         {% endif %}
 
         var mode = ace.require('ace/mode/' + modeName).Mode;
