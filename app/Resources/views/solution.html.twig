@@ -28,7 +28,7 @@
                 {% endif %}
             </td>
             <td>{{ solution.user }}</td>
-            <td class="has-text-centered">{{ solution.problem }}</td>
+            <td class="has-text-centered"><a href="{{ path('problem', {problemId: solution.problem.id}) }}">{{ solution.problem }}</a> </td>
             <td class="has-text-centered">{{ solution.language }}</td>
             <td class="has-text-centered">
                 <span class="has-text-{% if solution.status.id == 1 %}success{% elseif solution.status.id < 8 %}danger{% else %}{% endif %}">
