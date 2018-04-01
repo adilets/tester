@@ -7,6 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 
 class SolutionController extends Controller
 {
@@ -14,14 +15,19 @@ class SolutionController extends Controller
      * @Route("/solutions", name="solutions")
      * @Method("GET")
      */
-    public function indexAction()
+    public function indexAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
 
         $solutions = $em->getRepository('AppBundle:Solution')->findBy([], ['id' => 'DESC']);
 
+        $perPage = $this->getParameter('solution_per_page');
+
+        $paginator  = $this->get('knp_paginator');
+        $pagination = $paginator->paginate($solutions, $request->query->getInt('page', 1), $perPage);
+
         return $this->render('@App/Solution/index.html.twig', array(
-            'solutions' => $solutions,
+            'pagination' => $pagination,
         ));
     }
 
