@@ -18,8 +18,8 @@
         </thead>
         <tbody>
             <tr>
-                <td>{{ statement.in | nl2br }}</td>
-                <td>{{ statement.out | nl2br }}</td>
+                <td>{{ statement.in | default() | nl2br }}</td>
+                <td>{{ statement.out | default() | nl2br }}</td>
             </tr>
         </tbody>
     </table>

@@ -40,6 +40,22 @@
                 </div>
             </div>
 
+            <hr>
+
+            <div class="field">
+                {{ form_label(form.university, '', {'label_attr': {'class': 'label'}}) }}
+                <div class="control">
+                    {{ form_widget(form.university, {'attr': {'class': 'input'}}) }}
+                </div>
+            </div>
+
+            <div class="field">
+                {{ form_label(form.group, '', {'label_attr': {'class': 'label'}}) }}
+                <div class="control">
+                    {{ form_widget(form.group, {'attr': {'class': 'input'}}) }}
+                </div>
+            </div>
+
             <div class="field">
                 <div class="control">
                     <input class="button is-primary" type="submit"
@@ -50,3 +66,26 @@
         </div>
     </div>
 {% endblock fos_user_content %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript">
+        $(function () {
+            var universityFieldId = '{{ form.children.university.vars.id }}';
+
+            $('#' + universityFieldId).on('change', function () {
+                var universityId = this.value;
+                if (universityId) {
+                    $('.university-group').hide();
+                    $('.university-group').each(function () {
+                        if (parseInt($(this).data('university-id')) === parseInt(universityId)) {
+                            $(this).show();
+                        }
+                    });
+                } else {
+                    $('.university-group').show();
+                }
+            });
+        });
+    </script>
+{% endblock %}

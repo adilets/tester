@@ -2,6 +2,8 @@
 
 namespace AppBundle\Repository;
 
+use AppBundle\Entity\User;
+
 /**
  * ProblemRepository
  *
@@ -10,4 +12,17 @@ namespace AppBundle\Repository;
  */
 class ProblemRepository extends \Doctrine\ORM\EntityRepository
 {
+    public function getResolved(User $user) {
+        $qb = $this->createQueryBuilder('p');
+
+        $query = $qb
+            ->innerJoin('AppBundle:Solution', 's', 'WITH', 's.problem = p')
+            ->andWhere('s.user = :user')
+            ->setParameter('user', $user)
+        ;
+
+        $results = $query->getQuery()->getResult();
+
+        return $results;
+    }
 }

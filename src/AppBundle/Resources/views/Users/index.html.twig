@@ -1,0 +1,15 @@
+{% extends "::base.html.twig" %}
+
+{% block title %}AppBundle:Users:index{% endblock %}
+
+{% block body %}
+    <nav class="panel is-fullwidth is-bordered">
+        {% for user in users %}
+            <a href="{{ path('user', {username: user.username}) }}" class="panel-block">
+                <h6 class="subtitle is-6">
+                    {{ user.username }}
+                </h6>
+            </a>
+        {% endfor %}
+    </nav>
+{% endblock %}

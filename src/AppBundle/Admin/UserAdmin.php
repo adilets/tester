@@ -20,8 +20,8 @@ class UserAdmin extends AbstractAdmin
      */
     public function preUpdate($user)
     {
-        $this->getUserManager()->updateCanonicalFields($user);
-        $this->getUserManager()->updatePassword($user);
+        $this->userManager->updateCanonicalFields($user);
+        $this->userManager->updatePassword($user);
     }
 
     /**
@@ -48,6 +48,11 @@ class UserAdmin extends AbstractAdmin
         $listMapper
             ->addIdentifier('username')
             ->add('email')
+            ->add('university', null, [
+                'mapped' => false,
+                'template' => '::university.html.twig'
+            ])
+            ->add('group')
             ->add('enabled', null, ['editable' => true])
         ;
     }
@@ -60,6 +65,7 @@ class UserAdmin extends AbstractAdmin
         $filterMapper
             ->add('id')
             ->add('username')
+            ->add('group')
             ->add('email')
         ;
     }
@@ -79,6 +85,7 @@ class UserAdmin extends AbstractAdmin
         $formMapper
             ->add('username')
             ->add('email')
+            ->add('group')
             ->add('plainPassword', $textType, [
                 'required' => (!$this->getSubject() || is_null($this->getSubject()->getId())),
             ])

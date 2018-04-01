@@ -1,0 +1,9 @@
+{% extends 'SonataAdminBundle:CRUD:base_list_field.html.twig' %}
+
+{% block field %}
+    {% if object.group %}
+        <a href="{{ path('admin_app_university_edit', {id: object.group.university.id}) }}">
+            {{ object.group.university }}
+        </a>
+    {% endif %}
+{% endblock %}
