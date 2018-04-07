@@ -18,15 +18,13 @@ class Problem {
 
     public function runChecker(Solution $solution) {
         $utilityPath = $this->getUtilityPath();
-        if (chdir($utilityPath)) {
-            exec("sudo {$utilityPath}/main -solution-id={$solution->getId()} > /dev/null &");
-        }
+        exec("cd {$utilityPath} && sudo ./main -solution-id={$solution->getId()} > /dev/null &");
     }
 
     public function getStatement(ProblemEntity $problem) {
         $problemId = $problem->getId();
         $path = $this->container->getParameter('utility_path') . "/tests/$problemId/";
-
+//        var_dump($path);die();
         $statement = [];
 
         $inFileName = $path . '1.in';
