@@ -18,6 +18,7 @@ class ProblemAdmin extends AbstractAdmin
             ->add('description')
             ->add('timeLimit')
             ->add('memoryLimit')
+            ->add('topic')
             ->add('public')
         ;
     }
@@ -29,6 +30,7 @@ class ProblemAdmin extends AbstractAdmin
             ->add('description', null, ['attr' => ['class' => 'tinymce']])
             ->add('timeLimit')
             ->add('memoryLimit')
+            ->add('topic')
             ->add('public')
             ->add('file', 'file', [
                 'required' => $this->isCurrentRoute('create'),
@@ -45,6 +47,7 @@ class ProblemAdmin extends AbstractAdmin
             ->add('description')
             ->add('timeLimit')
             ->add('memoryLimit')
+            ->add('topic')
             ->add('public')
         ;
     }
@@ -54,9 +57,9 @@ class ProblemAdmin extends AbstractAdmin
         $listMapper
             ->add('id')
             ->add('title')
-            ->add('description')
             ->add('timeLimit')
             ->add('memoryLimit')
+            ->add('topic')
             ->add('public', null, ['editable' => true])
             ->add('_action', null, array(
                 'actions' => array(

@@ -16,7 +16,7 @@
     {% for solution in pagination %}
         <tr>
             <td class="has-text-centered">
-                {% if ("ROLE_SUPER_ADMIN" in app.user.roles) or app.user.id == solution.user.id %}
+                {% if app.user and (("ROLE_SUPER_ADMIN" in app.user.roles) or app.user.id == solution.user.id) %}
                 <a href="{{ path('solution', {id: solution.id}) }}">{{ solution.id }}</a>
                 {% else %}
                     {{ solution.id }}

@@ -1,14 +1,27 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <nav class="panel is-fullwidth is-bordered">
-        {% for problem in problems %}
-            <a href="{{ path('problem', {problemId: problem.id}) }}" class="panel-block">
-                <h6 class="subtitle is-6">
-                    {{ problem.title }}
-                </h6>
-            </a>
-        {% endfor %}
-    </nav>
+    <table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Topic</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for problem in problems %}
+            <tr>
+                <td>
+                    <a href="{{ path('problem', {problemId: problem.id}) }}">
+                        {{ problem.title }}
+                    </a>
+                </td>
+                <td>
+                    {{ problem.topic }}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
     {{ knp_pagination_render(problems) }}
 {% endblock %}
