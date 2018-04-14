@@ -98,6 +98,14 @@ class Problem
      */
     private $public;
 
+    /**
+     * @var Topic
+     *
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Topic")
+     * @ORM\JoinColumn(name="topic_id", referencedColumnName="id")
+     */
+    private $topic;
+
     public function __toString()
     {
         return $this->getTitle() ? $this->getTitle() : '';
@@ -279,5 +287,29 @@ class Problem
     public function getPublic()
     {
         return $this->public;
+    }
+
+    /**
+     * Set topic
+     *
+     * @param \AppBundle\Entity\Topic $topic
+     *
+     * @return Problem
+     */
+    public function setTopic(\AppBundle\Entity\Topic $topic = null)
+    {
+        $this->topic = $topic;
+
+        return $this;
+    }
+
+    /**
+     * Get topic
+     *
+     * @return \AppBundle\Entity\Topic
+     */
+    public function getTopic()
+    {
+        return $this->topic;
     }
 }

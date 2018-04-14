@@ -111,3 +111,10 @@ services:
         class: AppBundle\Form\RegistrationType
         tags:
             - { name: form.type, alias: app_user_registration }
+
+    app.admin.topic:
+        class: AppBundle\Admin\TopicAdmin
+        arguments: [~, AppBundle\Entity\Topic, SonataAdminBundle:CRUD]
+        tags:
+            - { name: sonata.admin, manager_type: orm, label: Topic }
+        public: true
