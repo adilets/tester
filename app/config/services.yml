@@ -102,7 +102,7 @@ services:
         tags:
             - { name: doctrine.event_subscriber, connection: default }
 
-    app.topic.chat:
+    app.topic.websocket:
         class: AppBundle\Topic\TesterTopic
         tags:
             - { name: gos_web_socket.topic }
