@@ -48,16 +48,4 @@ class SolutionController extends Controller
             'testResults' => $testResults,
         ));
     }
-
-	/**
-	 * @Route("/test", name="test")
-	 */
-    public function testAction()
-    {
-	    $pusher = $this->container->get('gos_web_socket.wamp.pusher');
-//push(data, route_name, route_arguments)
-	    $pusher->push(['my_data' => 'data'], 'app_topic_chat');
-
-	    return new JsonResponse();
-    }
 }

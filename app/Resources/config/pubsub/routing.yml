@@ -1,4 +1,4 @@
-app_topic_chat:
-    channel: app/chat
+app_topic_websocket:
+    channel: app/websocket
     handler:
         callback: 'app.topic' #Относится к getName, а не к имени сервиса

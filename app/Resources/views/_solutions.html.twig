@@ -1,0 +1,39 @@
+{% for solution in solutions %}
+    <tr>
+        <td class="has-text-centered" style="width: 6%;">
+            {% if app.user and (("ROLE_SUPER_ADMIN" in app.user.roles) or app.user.id == solution.user.id) %}
+            <a href="{{ path('solution', {id: solution.id}) }}">{{ solution.id }}</a>
+            {% else %}
+                {{ solution.id }}
+            {% endif %}
+        </td>
+        <td class="has-text-centered" style="width: 13%;">
+            {% if solution.createdAt %}
+                {{ solution.createdAt|date('d.m.Y H:i:s') }}
+            {% endif %}
+        </td>
+        <td style="width: 13%;">{{ solution.user }}</td>
+        <td class="has-text-centered" style="width: 21%;">
+            <a href="{{ path('problem', {problemId: solution.problem.id}) }}">
+                {{ solution.problem }}
+            </a>
+        </td>
+        <td class="has-text-centered" style="width: 6%;">
+            {{ solution.language }}
+        </td>
+        <td class="has-text-centered" style="width: 14%;">
+            <span class="has-text-{% if solution.status.id == 1 %}success{% elseif solution.status.id < 8 %}danger{% else %}{% endif %}">
+                {{ solution.status.title }}
+            </span>
+        </td>
+        <td class="has-text-centered" style="width: 9%;">
+            {{ solution.test }}
+        </td>
+        <td class="has-text-centered" style="width: 9%;">
+            {{ solution.time | number_format(3) }}
+        </td>
+        <td class="has-text-centered" style="width: 9%;">
+            {{ (solution.memory/1024) | number_format(2) }} KB
+        </td>
+    </tr>
+{% endfor %}

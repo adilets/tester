@@ -20,7 +20,7 @@ class TesterTopic implements TopicInterface
 	public function onSubscribe(ConnectionInterface $connection, Topic $topic, WampRequest $request)
 	{
 		//this will broadcast the message to ALL subscribers of this topic.
-		$topic->broadcast(['msg' => $connection->resourceId . " has joined " . $topic->getId()]);
+//		$topic->broadcast(['msg' => $connection->resourceId . " has joined " . $topic->getId()]);
 	}
 
 	/**
@@ -34,7 +34,7 @@ class TesterTopic implements TopicInterface
 	public function onUnSubscribe(ConnectionInterface $connection, Topic $topic, WampRequest $request)
 	{
 		//this will broadcast the message to ALL subscribers of this topic.
-		$topic->broadcast(['msg' => $connection->resourceId . " has left " . $topic->getId()]);
+//		$topic->broadcast(['msg' => $connection->resourceId . " has left " . $topic->getId()]);
 	}
 
 
@@ -59,7 +59,7 @@ class TesterTopic implements TopicInterface
 		*/
 
 		$topic->broadcast([
-			'msg' => $event
+			'response' => $event
 		]);
 	}
 
