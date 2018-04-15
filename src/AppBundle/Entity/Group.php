@@ -3,6 +3,7 @@
 
 namespace AppBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use FOS\UserBundle\Model\Group as BaseGroup;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -25,8 +26,14 @@ class Group extends BaseGroup
      */
     private $university;
 
+    /**
+     * @ORM\OneToMany(targetEntity="User", mappedBy="group")
+     */
+    private $users;
+
     public function __construct($name = null)
     {
+        $this->users = new ArrayCollection();
         parent::__construct($name);
         // your own logic
     }
@@ -58,5 +65,39 @@ class Group extends BaseGroup
     public function getUniversity()
     {
         return $this->university;
+    }
+
+    /**
+     * Add user
+     *
+     * @param \AppBundle\Entity\User $user
+     *
+     * @return Group
+     */
+    public function addUser(\AppBundle\Entity\User $user)
+    {
+        $this->users[] = $user;
+
+        return $this;
+    }
+
+    /**
+     * Remove user
+     *
+     * @param \AppBundle\Entity\User $user
+     */
+    public function removeUser(\AppBundle\Entity\User $user)
+    {
+        $this->users->removeElement($user);
+    }
+
+    /**
+     * Get users
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getUsers()
+    {
+        return $this->users;
     }
 }

@@ -20,7 +20,7 @@ class User extends BaseUser
 	protected $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Group")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Group", inversedBy="users")
      * @ORM\JoinColumn(name="group_id", referencedColumnName="id")
      */
     protected $group;
