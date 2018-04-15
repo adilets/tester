@@ -8,7 +8,7 @@
 # Description:       <DESCRIPTION>
 ### END INIT INFO
 
-SCRIPT="/path/to/tester/bin/console gos:websocket:server"
+SCRIPT="/path/to/tester/bin/console gos:websocket:server --env=prod"
 RUNAS=root
 
 PIDFILE=/var/run/tester_websocket.pid
