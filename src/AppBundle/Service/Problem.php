@@ -52,8 +52,9 @@ class Problem {
             $testsPath = $this->getTestsPath($problem->getId());
             $zipper->extractTo($testsPath);
             $zipper->close();
-            shell_exec("sudo /bin/cp -r {$testsPath} {$this->getChrootPath()}/utility/tests");
-            shell_exec("sudo /bin/cp -r {$this->getCheckerPath()} {$this->getChrootPath()}/utility/checkers/checker_{$problem->getId()}");
+
+            shell_exec("sudo /bin/cp -fr {$testsPath} {$this->getChrootPath()}/utility/tests");
+            shell_exec("sudo /bin/cp -fr {$this->getCheckerPath()} {$this->getChrootPath()}/utility/checkers/checker_{$problem->getId()}");
         }
     }
 

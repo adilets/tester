@@ -25,16 +25,14 @@
         }
     </style>
 
-    {% for news in pagination %}
     <div class="tile is-parent is-shady">
         <article class="tile is-child notification is-white">
             <p class="title">{{ news.title }}</p>
             <p class="subtitle">With some content</p>
             <div class="content">
-                {{ news.description | raw }}
+                {{ news.content | raw }}
             </div>
-            <p><a href="{{ path('news', {id: news.id}) }}">Read more ...</a></p>
         </article>
     </div>
-    {% endfor %}
+
 {% endblock %}
