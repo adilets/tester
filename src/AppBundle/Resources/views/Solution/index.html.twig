@@ -13,13 +13,18 @@
         window.onload = function() {
             var webSocket = WS.connect("ws://127.0.0.1:8080");
 
-            webSocket.on("socket/connect", function(session){
+            webSocket.on("socket/connect", function(session) {
                 //session is an Autobahn JS WAMP session.
 
                 console.log("Successfully Connected!");
 
-                session.subscribe("app/chat", function(uri, payload){
-                    console.log("Received message", payload.msg);
+                session.subscribe("app/websocket", function(uri, payload) {
+                    var response = JSON.parse(payload['response']);
+                    var page = {{ (app.request.query.get('page') | default(1)) }};
+
+                    if (page === 1) {
+                        $('#solutions').html(response['solutions']);
+                    }
                 });
 
                 // session.publish("app/chat", "Привет, я пришел от клиента!!!");
