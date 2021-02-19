@@ -75,11 +75,22 @@ class Tournament
     private $users;
 
     /**
+     * @ORM\ManyToMany(targetEntity="Group")
+     * @ORM\JoinTable(name="tournaments_groups",
+     *      joinColumns={@ORM\JoinColumn(name="tournament_id", referencedColumnName="id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="group_id", referencedColumnName="id")}
+     * )
+     */
+    private $groups;
+
+    /**
      * Constructor
      */
     public function __construct()
     {
         $this->problems = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->users = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->groups = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -288,11 +299,22 @@ class Tournament
      * @return bool
      */
     public function hasAccess(User $user) {
-        foreach ($this->users as $u) {
-            if ($user == $u) {
+        foreach ($this->getUsers() as $userHasAccess) {
+            if ($user == $userHasAccess) {
                 return true;
             }
         }
+
+        foreach ($this->getGroups() as $groupHasAccess) {
+            if ($groupHasAccess instanceof Group) {
+                foreach ($groupHasAccess->getUsers() as $groupHasAccessUser) {
+                    if ($user == $groupHasAccessUser) {
+                        return true;
+                    }
+                }
+            }
+        }
+
         return false;
     }
 
@@ -318,5 +340,39 @@ class Tournament
     public function getIsPublic()
     {
         return $this->isPublic;
+    }
+
+    /**
+     * Add group
+     *
+     * @param \AppBundle\Entity\Group $group
+     *
+     * @return Tournament
+     */
+    public function addGroup(\AppBundle\Entity\Group $group)
+    {
+        $this->groups[] = $group;
+
+        return $this;
+    }
+
+    /**
+     * Remove group
+     *
+     * @param \AppBundle\Entity\Group $group
+     */
+    public function removeGroup(\AppBundle\Entity\Group $group)
+    {
+        $this->groups->removeElement($group);
+    }
+
+    /**
+     * Get groups
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getGroups()
+    {
+        return $this->groups;
     }
 }

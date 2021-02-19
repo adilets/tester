@@ -55,6 +55,7 @@ class TournamentAdmin extends AbstractAdmin
         $formMapper
             ->add('title')
             ->add('description')
+            ->add('groups')
             ->add('start', 'sonata_type_datetime_picker')
             ->add('end', 'sonata_type_datetime_picker')
             ->add('isPublic')
